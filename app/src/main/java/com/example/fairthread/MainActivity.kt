@@ -3,10 +3,8 @@ package com.example.fairthread
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.navigation.compose.rememberNavController
-import com.example.fairthread.navigation.FairThreadNavGraph
+import com.example.fairthread.navigation.navGraph
 import com.example.fairthread.ui.theme.FairThreadTheme
 
 class MainActivity : ComponentActivity() {
@@ -14,10 +12,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FairThreadTheme {
-                Surface(color = MaterialTheme.colorScheme.background) {
-                    val navController = rememberNavController()
-                    FairThreadNavGraph(navController)
-                }
+                val navController = rememberNavController()
+                navGraph(navController = navController)
             }
         }
     }
