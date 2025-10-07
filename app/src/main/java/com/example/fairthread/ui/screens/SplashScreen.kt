@@ -49,8 +49,8 @@ fun SplashScreen(navController: NavController) {
                 popUpTo("splash") { inclusive = true }
             }
         } else {
-            navController.navigate("login") {
-                popUpTo("splash") { inclusive = true }
+            navController.navigate("register") {
+                popUpTo("register") { inclusive = true }
             }
         }
     }

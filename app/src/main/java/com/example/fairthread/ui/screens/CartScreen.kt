@@ -16,86 +16,33 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fairthread.viewmodel.CartViewModel
 
 @Composable
-fun CartScreen(navController: NavController, viewModel: CartViewModel = viewModel()) {
+fun CartScreen(uid: String, navController: NavController) {
+
+    val viewModel: CartViewModel = viewModel()
     val cartItems by viewModel.cartItems.collectAsState()
 
-    FairThreadBackground {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp)
+    LaunchedEffect(uid) {
+        viewModel.loadCart(uid)
+    }
+
+
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text("Your Cart", style = MaterialTheme.typography.h5)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        cartItems.forEach { item ->
+            Text("${item["name"]} - R${item["price"]} x ${item["quantity"]}")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = { navController.navigate("payment") },
+            colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor),
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Cart", fontSize = 24.sp)
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            LazyColumn(modifier = Modifier.weight(1f)) {
-                items(cartItems) { item ->
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 4.dp),
-                        elevation = 4.dp
-                    ) {
-                        Text("Item: ${item.name}")
-                        Text("Price: R${item.price}")
-                        Text("Quantity: ${item.quantity}")
-
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Button(
-                                onClick = { viewModel.removeItem(item.id) },
-                                colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor)
-                            ) {
-                                Text("Remove", color = ButtonTextColor)
-                            }
-
-                            Button(
-                                onClick = {
-                                    if (item.quantity > 1) {
-                                        viewModel.updateQuantity(item.id, item.quantity - 1)
-                                    }
-                                },
-                                colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor)
-                            ) {
-                                Text("-", color = ButtonTextColor)
-                            }
-
-                            Text(
-                                "Qty: ${item.quantity}",
-                                modifier = Modifier.padding(horizontal = 16.dp)
-                            )
-
-                            Button(
-                                onClick = {
-                                    viewModel.updateQuantity(item.id, item.quantity + 1)
-                                },
-                                colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor)
-                            ) {
-                                Text("+", color = ButtonTextColor)
-                            }
-                        }
-                    }
-
-                    val total = cartItems.sumOf { it.price * it.quantity }
-
-                    Text("Total: R${"%.2f".format(total)}", fontSize = 20.sp)
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Button(
-                        onClick = { navController.navigate("payment") },
-                        colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor),
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text("Proceed to Payment", color = ButtonTextColor)
-                    }
-                }
-            }
+            Text("Proceed to Payment", color = ButtonTextColor)
         }
     }
 }

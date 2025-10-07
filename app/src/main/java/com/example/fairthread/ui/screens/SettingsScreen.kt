@@ -8,13 +8,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.fairthread.ui.components.FairThreadBackground
 import com.example.fairthread.ui.theme.ButtonColor
 import com.example.fairthread.ui.theme.ButtonTextColor
+import com.example.fairthread.viewmodel.SettingsViewModel
 
 @Composable
-fun SettingsScreen(navController: NavController) {
+fun SettingsScreen(uid: String, navController: NavController) {
+    val viewModel: SettingsViewModel = viewModel()
+    val settings by viewModel.settings.collectAsState()
+
+    LaunchedEffect(uid) {
+        viewModel.loadSettings(uid)
+    }
+
+
     FairThreadBackground {
         Column(
             modifier = Modifier
