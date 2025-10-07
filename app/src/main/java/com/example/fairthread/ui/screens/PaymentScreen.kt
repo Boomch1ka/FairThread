@@ -44,7 +44,16 @@ fun PaymentScreen(navController: NavController) {
                 colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Confirm Payment", color = ButtonTextColor)
+                Text("Return Home", color = ButtonTextColor)
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Button(
+                onClick = { navController.navigate("order") },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Confirm Payment")
             }
         }
     }

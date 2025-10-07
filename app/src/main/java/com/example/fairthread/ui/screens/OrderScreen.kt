@@ -36,24 +36,34 @@ fun OrderScreen(navController: NavController, viewModel: OrderViewModel = viewMo
                 viewModel.loadOrders()
             }
 
-            LazyColumn(
-                modifier = Modifier.weight(1f)
-            ) {
-                items(orders) { order ->
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 4.dp),
-                        elevation = 4.dp
-                    ) {
-                        Column(modifier = Modifier.padding(16.dp)) {
-                            Text(text = order, style = MaterialTheme.typography.body1)
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Button(
-                                onClick = { /* Handle individual order action */ },
-                                colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor)
-                            ) {
-                                Text("View", color = ButtonTextColor)
+            if (orders.isEmpty()) {
+                Text("You have no orders yet.", fontSize = 16.sp)
+            } else {
+                LazyColumn(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    items(orders) { order ->
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp),
+                            elevation = 4.dp
+                        ) {
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                Text("Order #${order.id}", style = MaterialTheme.typography.h6)
+                                Text("Date: ${order.date}")
+                                Text("Total: R${order.total}")
+                                Text("Status: ${order.status}")
+
+
+                                Spacer(modifier = Modifier.height(8.dp))
+
+                                Button(
+                                    onClick = { /* Handle individual order action */ },
+                                    colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor)
+                                ) {
+                                    Text("View", color = ButtonTextColor)
+                                }
                             }
                         }
                     }
@@ -68,6 +78,13 @@ fun OrderScreen(navController: NavController, viewModel: OrderViewModel = viewMo
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Pay", color = ButtonTextColor)
+            }
+
+            Button(
+                onClick = { navController.navigate("home") },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Back to Home")
             }
         }
     }

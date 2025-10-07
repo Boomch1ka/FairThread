@@ -56,6 +56,7 @@ dependencies {
     implementation ("androidx.compose.ui:ui:1.5.3")
     implementation ("androidx.compose.material:material:1.5.3")
     implementation ("androidx.compose.ui:ui-tooling-preview:1.5.3")
+    implementation(libs.firebase.crashlytics.buildtools)
     debugImplementation ("androidx.compose.ui:ui-tooling:1.5.3")
 
     // Navigation

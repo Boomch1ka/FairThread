@@ -1,5 +1,6 @@
 package com.example.fairthread.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -12,6 +13,7 @@ import androidx.navigation.NavController
 import com.example.fairthread.ui.components.FairThreadBackground
 import com.example.fairthread.ui.theme.ButtonColor
 import com.example.fairthread.ui.theme.ButtonTextColor
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.logging.Log
 
 
 @Composable
@@ -55,18 +57,27 @@ fun LoginScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
-                onClick = { navController.navigate("home") },
+                onClick = {
+                    //Toast.makeText(context, "Login clicked", Toast.LENGTH_SHORT).show()
+                    navController.navigate("home") },
                 colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Login", color = ButtonTextColor)
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
             TextButton(onClick = { navController.navigate("forgot") }) {
                 Text("Forgot Password?")
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            TextButton(onClick = { navController.navigate("register") }) {
+                Text("Don't have an Account? Register!", color = ButtonTextColor)
+            }
         }
+
     }
 }
