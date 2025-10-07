@@ -6,18 +6,38 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.fairthread.ui.components.FairThreadBackground
 import com.example.fairthread.ui.theme.ButtonColor
 import com.example.fairthread.ui.theme.ButtonTextColor
+import com.example.fairthread.viewmodel.AuthViewModel
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.logging.Log
 
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController, viewModel: AuthViewModel = viewModel()
+) {
+
+    val context = LocalContext.current
+    val authState by viewModel.authState.collectAsState()
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
+    LaunchedEffect(authState) {
+        authState?.onSuccess {
+            navController.navigate("home") {
+            popUpTo("login") { inclusive = true }
+        }
+    }?.onFailure {
+            Toast.makeText(context, it.message ?: "Login failed", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     FairThreadBackground {
         Column(
             modifier = Modifier
@@ -33,9 +53,6 @@ fun LoginScreen(navController: NavController) {
             )
 
             Spacer(modifier = Modifier.height(24.dp))
-
-            var email by remember { mutableStateOf("") }
-            var password by remember { mutableStateOf("") }
 
             OutlinedTextField(
                 value = email,
@@ -58,7 +75,6 @@ fun LoginScreen(navController: NavController) {
 
             Button(
                 onClick = {
-                    //Toast.makeText(context, "Login clicked", Toast.LENGTH_SHORT).show()
                     navController.navigate("home") },
                 colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor),
                 modifier = Modifier.fillMaxWidth()
