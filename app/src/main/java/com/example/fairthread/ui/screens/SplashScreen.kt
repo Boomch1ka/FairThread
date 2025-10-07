@@ -1,53 +1,77 @@
 package com.example.fairthread.ui.screens
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.fairthread.ui.components.FairThreadBackground
 import com.example.fairthread.ui.theme.ButtonColor
 import com.example.fairthread.ui.theme.ButtonTextColor
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.delay
 
 
 @Composable
 fun SplashScreen(navController: NavController) {
-    FairThreadBackground {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 32.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "FairThread",
-                fontSize = 32.sp,
-                color = MaterialTheme.colors.onSurface
+
+    val context = LocalContext.current
+    val scale = remember{ Animatable(0f) }
+
+    // Animate logo scale
+    LaunchedEffect(Unit) {
+        scale.animateTo(
+            targetValue = 1f,
+            animationSpec = tween(
+                durationMillis = 1000,
+                easing = FastOutSlowInEasing
             )
+        )
+        delay(1500) // Optional splash delay
 
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Button(
-                onClick = { navController.navigate("login") },
-                colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Login", color = ButtonTextColor)
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            navController.navigate("home") {
+                popUpTo("splash") { inclusive = true }
             }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Button(
-                onClick = { navController.navigate("register") },
-                colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Register", color = ButtonTextColor)
+        } else {
+            navController.navigate("login") {
+                popUpTo("splash") { inclusive = true }
             }
+        }
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Icon(
+                imageVector = Icons.Default.ShoppingCart, // Replace with your logo
+                contentDescription = "FairThread Logo",
+                modifier = Modifier
+                    .size(100.dp)
+                    .scale(scale.value),
+                tint = Color.Black
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text("FairThread", style = MaterialTheme.typography.h4)
         }
     }
 }

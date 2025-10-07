@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "108933700927",
+    "project_id": "fairthread-2028a",
+    "storage_bucket": "fairthread-2028a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:108933700927:android:cb675ce99e2e77dd61478a",
+        "android_client_info": {
+          "package_name": "com.example.fairthread"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrysmXTayG8-iBRfOJ1Tet71hxQ3R9MJQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
