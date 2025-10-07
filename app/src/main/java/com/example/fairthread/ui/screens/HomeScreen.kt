@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.fairthread.ui.components.FairThreadBackground
 import com.example.fairthread.ui.theme.WhiteText
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -30,11 +32,12 @@ fun HomeScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(
-                    painter = painterResource(id = android.R.drawable.sym_def_app_icon),
+                    imageVector = Icons.Filled.Home,
                     contentDescription = "App Icon",
                     modifier = Modifier.size(40.dp),
-                    tint = WhiteText
+                    tint = MaterialTheme.colors.onSurface
                 )
+
 
                 var searchQuery by remember { mutableStateOf("") }
 
@@ -57,13 +60,48 @@ fun HomeScreen(navController: NavController) {
                 )
 
                 Icon(
-                    painter = painterResource(id = android.R.drawable.ic_menu_view),
+                    imageVector = Icons.Filled.Home,
                     contentDescription = "View Icon",
-                    modifier = Modifier
-                        .size(40.dp)
-                        .padding(start = 8.dp),
-                    tint = WhiteText
+                    modifier = Modifier.size(40.dp),
+                    tint = MaterialTheme.colors.onSurface
                 )
+
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Button(
+                onClick = { navController.navigate("catalogue") },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Browse Catalogue")
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
+                onClick = { navController.navigate("cart") },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("View Cart")
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
+                onClick = { navController.navigate("stores") },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Explore Stores")
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
+                onClick = { navController.navigate("settings") },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Settings")
             }
 
             Spacer(modifier = Modifier.height(24.dp))
