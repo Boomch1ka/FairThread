@@ -4,38 +4,41 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.example.fairthread.ui.screens.*
+import com.example.fairthread.viewmodel.AuthViewModel
 
 @Composable
 fun NavGraph(
-    navController: NavHostController = rememberNavController(),
-    uid: String
+    navController: NavHostController,
+    uid: String,
+    authViewModel: AuthViewModel
 ) {
     NavHost(navController = navController, startDestination = "splash") {
 
+        // 🚀 Splash Screen
         composable("splash") {
             SplashScreen(navController = navController)
         }
 
-        // 🔐 Auth Screens (optional)
+        // 🔐 Authentication
         composable("login") {
-            LoginScreen(navController = navController)
+            LoginScreen(navController = navController, viewModel = authViewModel)
         }
 
         composable("register") {
-            RegisterScreen(navController = navController)
+            RegisterScreen(navController = navController, viewModel = authViewModel)
         }
 
         composable("forgot") {
             ForgotPasswordScreen(navController = navController)
         }
+
         // 🏠 Home
         composable("home") {
             HomeScreen(navController = navController)
         }
 
-        // 🏠 Catalogue
+        // 🛍️ Catalogue
         composable("catalogue") {
             CatalogueScreen(navController = navController)
         }
@@ -53,7 +56,6 @@ fun NavGraph(
 
         // 💳 Checkout
         composable("checkout") {
-            // Replace with actual cartItems from ViewModel or NavArgs
             CheckoutScreen(uid = uid, cartItems = emptyList(), navController = navController)
         }
 
@@ -78,22 +80,19 @@ fun NavGraph(
             StoreScreen(storeId = storeId, navController = navController)
         }
 
-        // 📬 Inbox (Gmail API)
+        // 📬 Inbox (Gmail API) — Optional
         /*
         composable("inbox") {
             InboxScreen(uid = uid, navController = navController)
         }
-         */
+        */
 
-
-
-        // ✅ Optional: Order Confirmation
+        // ✅ Order Confirmation — Optional
         /*
         composable("confirmation/{orderId}") { backStackEntry ->
             val orderId = backStackEntry.arguments?.getString("orderId") ?: ""
             OrderConfirmationScreen(orderId = orderId, navController = navController)
         }
-
-         */
+        */
     }
 }
