@@ -18,8 +18,13 @@ import com.example.fairthread.ui.theme.ButtonTextColor
 import com.example.fairthread.viewmodel.CatalogueViewModel
 
 @Composable
-fun CatalogueScreen(navController: NavController, viewModel: CatalogueViewModel = viewModel()) {
+fun CatalogueScreen(navController: NavController) {
+    val viewModel: CatalogueViewModel = viewModel()
     val categories by viewModel.categories.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.loadCategories()
+    }
 
     FairThreadBackground {
         Column(

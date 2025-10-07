@@ -2,72 +2,49 @@ package com.example.fairthread.ui.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import com.example.fairthread.ui.components.FairThreadBackground
-import com.example.fairthread.ui.theme.ButtonColor
-import com.example.fairthread.ui.theme.ButtonTextColor
+import androidx.navigation.NavHostController
 import com.example.fairthread.viewmodel.StoresViewModel
 
-
 @Composable
-fun StoresScreen(navController: NavController, viewModel: StoresViewModel = viewModel()) {
+fun StoresScreen(navController: NavHostController, viewModel: StoresViewModel = viewModel()) {
     val stores by viewModel.stores.collectAsState()
 
-    FairThreadBackground {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp)
-        ) {
-            Text(
-                text = "Stores",
-                fontSize = 24.sp,
-                color = MaterialTheme.colors.onSurface
-            )
+    LaunchedEffect(Unit) {
+        viewModel.loadStores()
+    }
 
-            Spacer(modifier = Modifier.height(24.dp))
+    Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
+        Text("Stores", style = MaterialTheme.typography.h5)
 
-            LaunchedEffect(Unit) {
-                viewModel.loadStores()
-            }
+        Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(24.dp))
+        LazyColumn {
+            items(stores) { store ->
+                val storeId = store["id"]?.toString() ?: ""
+                val name = store["name"]?.toString() ?: "Unnamed Store"
+                val description = store["description"]?.toString() ?: ""
 
-            val stores = listOf("Nike Store", "Adidas Outlet", "FairThread Merch", "Local Threads")
-
-            stores.forEach { store ->
                 Card(
-                    elevation = 4.dp,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp)
+                        .padding(vertical = 8.dp)
                         .clickable {
-                            // Navigate to store details screen with store name
-                            navController.navigate("storeDetails?name=${store}")
-                        }
+                            navController.navigate("store/$storeId")
+                        },
+                    elevation = 4.dp
                 ) {
-                    Text(
-                        text = store,
-                        modifier = Modifier.padding(16.dp),
-                        style = MaterialTheme.typography.body1
-                    )
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(name, style = MaterialTheme.typography.subtitle1)
+                        Text(description, style = MaterialTheme.typography.body2)
+                    }
                 }
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Button(
-                onClick = { navController.navigate("home") },
-                colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Back to Home", color = ButtonTextColor)
             }
         }
     }

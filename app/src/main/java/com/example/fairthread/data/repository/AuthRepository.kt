@@ -1,4 +1,4 @@
-package com.example.fairthread.repository
+package com.example.fairthread.data.repository
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
