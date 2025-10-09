@@ -6,24 +6,55 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.fairthread.ui.components.FairThreadBackground
 import com.example.fairthread.ui.theme.ButtonColor
 import com.example.fairthread.ui.theme.ButtonTextColor
+import com.example.fairthread.ui.theme.FairThreadTheme
+import com.example.fairthread.viewmodel.AuthViewModel
 import com.example.fairthread.viewmodel.SettingsViewModel
 
+
+@Preview(showBackground = true)
 @Composable
-fun SettingsScreen(uid: String, navController: NavController) {
-    val viewModel: SettingsViewModel = viewModel()
-    val settings by viewModel.settings.collectAsState()
+fun SettingsScreenPreview() {
+    val fakeNavController = rememberNavController()
+    val fakeUid = "preview-user-id"
+
+    FairThreadTheme {
+        SettingsScreen(uid = fakeUid, navController = fakeNavController)
+    }
+}
+
+@Composable
+fun SettingsScreen(
+    uid: String,
+    navController: NavController,
+    settingsViewModel: SettingsViewModel = viewModel(),
+    authViewModel: AuthViewModel = viewModel()
+) {
+    val settings by settingsViewModel.settings.collectAsState()
+    var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var saveMessage by remember { mutableStateOf("") }
 
     LaunchedEffect(uid) {
-        viewModel.loadSettings(uid)
+        settingsViewModel.loadSettings(uid)
     }
 
+    LaunchedEffect(settings) {
+        settings?.let {
+            username = it["username"]?.toString() ?: ""
+            email = it["email"]?.toString() ?: ""
+            password = it["password"]?.toString() ?: ""
+        }
+    }
 
     FairThreadBackground {
         Column(
@@ -32,17 +63,8 @@ fun SettingsScreen(uid: String, navController: NavController) {
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Settings",
-                fontSize = 24.sp,
-                color = MaterialTheme.colors.onSurface
-            )
-
+            Text("Settings", fontSize = 24.sp, color = MaterialTheme.colors.onSurface)
             Spacer(modifier = Modifier.height(24.dp))
-
-            var username by remember { mutableStateOf("") }
-            var email by remember { mutableStateOf("") }
-            var password by remember { mutableStateOf("") }
 
             OutlinedTextField(
                 value = username,
@@ -73,11 +95,33 @@ fun SettingsScreen(uid: String, navController: NavController) {
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
-                onClick = { /* Save logic here */ },
+                onClick = {
+                    settingsViewModel.saveSettings(uid, username, email, password)
+                    saveMessage = "Settings saved successfully"
+                },
                 colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Save Changes", color = ButtonTextColor)
+            }
+
+            if (saveMessage.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(saveMessage, color = MaterialTheme.colors.primary)
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Button(
+                onClick = {
+                    authViewModel.logout()
+                    navController.navigate("login") {
+                        popUpTo("settings") { inclusive = true }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Log Out")
             }
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -88,3 +132,4 @@ fun SettingsScreen(uid: String, navController: NavController) {
         }
     }
 }
+

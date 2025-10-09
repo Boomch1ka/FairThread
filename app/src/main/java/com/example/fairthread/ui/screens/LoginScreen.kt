@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import com.example.fairthread.ui.components.FairThreadBackground
 import com.example.fairthread.ui.theme.ButtonColor
 import com.example.fairthread.ui.theme.ButtonTextColor
+import com.example.fairthread.ui.theme.WhiteText
 import com.example.fairthread.viewmodel.AuthViewModel
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.logging.Log
 
@@ -91,7 +92,7 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel = viewMod
             Spacer(modifier = Modifier.height(16.dp))
 
             TextButton(onClick = { navController.navigate("register") }) {
-                Text("Don't have an Account? Register!", color = ButtonTextColor)
+                Text("Don't have an Account? Register!", color = WhiteText)
             }
         }
 

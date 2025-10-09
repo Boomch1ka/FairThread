@@ -56,7 +56,7 @@ fun NavGraph(
 
         // 💳 Checkout
         composable("checkout") {
-            CheckoutScreen(uid = uid, cartItems = emptyList(), navController = navController)
+            CheckoutScreen(uid = uid, navController = navController)
         }
 
         // 📜 Orders

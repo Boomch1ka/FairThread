@@ -1,4 +1,4 @@
-package com.example.fairthread.model
+package com.example.fairthread.data.model
 
 data class CartItem(
     val id: String,
