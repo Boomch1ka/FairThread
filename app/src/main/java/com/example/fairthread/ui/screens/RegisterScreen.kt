@@ -97,7 +97,7 @@ fun RegisterScreen(navController: NavController, viewModel: AuthViewModel = view
             Button(
                 onClick = {
                     if (password == confirmPassword) {
-                        viewModel.validateEmail(email.trim())
+                        viewModel.register(email.trim(), password.trim())
                     } else {
                         Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()
                     }
@@ -106,16 +106,6 @@ fun RegisterScreen(navController: NavController, viewModel: AuthViewModel = view
             ) {
                 Text("Register")
             }
-
-            LaunchedEffect(viewModel.emailValidation.collectAsState().value) {
-                val result = viewModel.emailValidation.value
-                if (result?.isSuccess == true && result.getOrNull()?.is_deliverable == true) {
-                    viewModel.register(email.trim(), password.trim())
-                } else if (result?.isFailure == true || result?.getOrNull()?.is_deliverable == false) {
-                    Toast.makeText(context, "Invalid or undeliverable email", Toast.LENGTH_SHORT).show()
-                }
-            }
-
 
 
             Spacer(modifier = Modifier.height(12.dp))
