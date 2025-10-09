@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import com.example.fairthread.ui.components.FairThreadBackground
 import com.example.fairthread.ui.theme.ButtonColor
 import com.example.fairthread.ui.theme.ButtonTextColor
+import com.example.fairthread.ui.theme.WhiteText
 import com.example.fairthread.viewmodel.AuthViewModel
 
 @Composable
@@ -120,7 +121,7 @@ fun RegisterScreen(navController: NavController, viewModel: AuthViewModel = view
             Spacer(modifier = Modifier.height(12.dp))
 
             TextButton(onClick = { navController.navigate("login") }) {
-                Text("Already have an account? Login")
+                Text("Already have an account? Login", color = WhiteText)
             }
         }
     }

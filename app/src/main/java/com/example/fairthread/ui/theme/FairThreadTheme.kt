@@ -5,21 +5,21 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
-import com.example.fairthread.ui.theme.Typography
-import com.example.fairthread.ui.theme.Shapes
 
 private val DarkColorPalette = darkColors(
-    primary = ButtonColor,
-    onPrimary = ButtonTextColor,
-    surface = ButtonColor,
-    onSurface = ButtonTextColor
+    primary = Gold,
+    onPrimary = Black,
+    background = Black,
+    surface = Black,
+    onSurface = White
 )
 
 private val LightColorPalette = lightColors(
-    primary = ButtonColor,
-    onPrimary = ButtonTextColor,
-    surface = ButtonColor,
-    onSurface = ButtonTextColor
+    primary = Gold,
+    onPrimary = White,
+    background = White,
+    surface = White,
+    onSurface = Black
 )
 
 @Composable
@@ -28,8 +28,8 @@ fun FairThreadTheme(content: @Composable () -> Unit) {
 
     MaterialTheme(
         colors = colors,
-        typography = Typography, // You can define this in Typography.kt
-        shapes = Shapes,         // Optional: define in Shapes.kt
+        typography = Typography,
+        shapes = Shapes,
         content = content
     )
 }

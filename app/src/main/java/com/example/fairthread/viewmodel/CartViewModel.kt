@@ -2,6 +2,7 @@ package com.example.fairthread.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fairthread.data.model.CartItem
 import com.example.fairthread.data.repository.FirestoreRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,20 +12,26 @@ class CartViewModel(
     private val repo: FirestoreRepository = FirestoreRepository()
 ) : ViewModel() {
 
-    private val _cartItems = MutableStateFlow<List<Map<String, Any>>>(emptyList())
-    val cartItems: StateFlow<List<Map<String, Any>>> = _cartItems
+    private val _cartItems = MutableStateFlow<List<CartItem>>(emptyList())
+    val cartItems: StateFlow<List<CartItem>> = _cartItems
 
     fun loadCart(uid: String) {
         viewModelScope.launch {
-            val items = repo.getCartItems(uid)
-            _cartItems.value = items
+            _cartItems.value = repo.getCartItems(uid)
         }
     }
 
-    fun addToCart(uid: String, itemId: String, name: String, price: Double, quantity: Int) {
+    fun removeItem(uid: String, itemId: String) {
         viewModelScope.launch {
-            repo.addItemToCart(uid, itemId, name, price, quantity)
-            loadCart(uid) // Refresh after adding
+            repo.removeCartItem(uid, itemId)
+            loadCart(uid)
+        }
+    }
+
+    fun updateQuantity(uid: String, itemId: String, quantity: Int) {
+        viewModelScope.launch {
+            repo.updateCartItemQuantity(uid, itemId, quantity)
+            loadCart(uid)
         }
     }
 }
