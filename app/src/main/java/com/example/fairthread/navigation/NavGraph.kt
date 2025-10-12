@@ -10,7 +10,8 @@ import com.example.fairthread.viewmodel.AuthViewModel
 @Composable
 fun NavGraph(
     navController: NavHostController,
-    uid: String
+    uid: String,
+    authViewModel: AuthViewModel
 ) {
     NavHost(navController = navController, startDestination = "splash") {
 
@@ -21,11 +22,11 @@ fun NavGraph(
 
         // 🔐 Authentication
         composable("login") {
-            LoginScreen(navController = navController)
+            LoginScreen(navController = navController, viewModel = authViewModel)
         }
 
         composable("register") {
-            RegisterScreen(navController = navController)
+            RegisterScreen(navController = navController, viewModel = authViewModel)
         }
 
         composable("forgot") {
