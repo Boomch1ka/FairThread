@@ -11,9 +11,13 @@ class AuthRepository(private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     suspend fun register(email: String, password: String): Result<Unit> {
         return try {
+            val repo = FirestoreRepository()
+            val exists = repo.isUserRegistered(email)
+            if (exists) return Result.failure(Exception("An account with this email already exists."))
+
             val result = auth.createUserWithEmailAndPassword(email, password).await()
             val uid = result.user?.uid ?: return Result.failure(Exception("No UID"))
-            createUserProfile(uid, email)
+            repo.createUserProfile(uid, email)
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -31,6 +35,9 @@ class AuthRepository(private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     suspend fun login(email: String, password: String): Result<Unit> {
         return try {
+            val isRegistered = FirestoreRepository().isUserRegistered(email)
+            if (!isRegistered) return Result.failure(Exception("Account not found. Please register first."))
+
             auth.signInWithEmailAndPassword(email, password).await()
             Result.success(Unit)
         } catch (e: Exception) {
@@ -38,14 +45,19 @@ class AuthRepository(private val auth: FirebaseAuth = FirebaseAuth.getInstance()
         }
     }
 
-    fun sendPasswordReset(email: String): Result<Unit> {
+    suspend fun sendPasswordReset(email: String): Result<Unit> {
         return try {
+            val repo = FirestoreRepository()
+            val task = repo.isUserRegistered(email)
+            if (!task) return Result.failure(Exception("No account found for this email. Please register first."))
+
             auth.sendPasswordResetEmail(email)
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
+
 
     fun getCurrentUserId(): String? = auth.currentUser?.uid
 
