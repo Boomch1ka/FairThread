@@ -12,19 +12,12 @@ class OrderViewModel(
     private val repo: FirestoreRepository = FirestoreRepository()
 ) : ViewModel() {
 
-    private val _orders = MutableStateFlow<List<Map<String, Any>>>(emptyList())
-    val orders: StateFlow<List<Map<String, Any>>> = _orders
-
-    fun placeOrder(uid: String, orderId: String, items: List<Map<String, Any>>, total: Double) {
-        viewModelScope.launch {
-            repo.placeOrder(uid, orderId, items, total)
-            loadOrders(uid)
-        }
-    }
+    private val _orders = MutableStateFlow<List<Order>>(emptyList())
+    val orders: StateFlow<List<Order>> = _orders
 
     fun loadOrders(uid: String) {
         viewModelScope.launch {
-            _orders.value = repo.getOrders(uid)
+            _orders.value = repo.getUserOrders(uid)
         }
     }
 }

@@ -18,7 +18,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             FairThreadTheme {
                 val navController = rememberNavController()
-                NavGraph(navController = navController, uid = uid)
+                NavGraph(
+                    navController = navController, uid = uid
+                )
             }
         }
     }
