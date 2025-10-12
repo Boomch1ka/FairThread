@@ -2,8 +2,8 @@ package com.example.fairthread.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fairthread.data.model.*
 import com.example.fairthread.data.repository.FirestoreRepository
+import com.example.fairthread.model.CartItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

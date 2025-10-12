@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.fairthread.model.CartItem
 import com.example.fairthread.viewmodel.CartViewModel
 
 @Composable
@@ -27,7 +28,7 @@ fun CartScreen(uid: String, navController: NavHostController, viewModel: CartVie
             Text("Your cart is empty.")
         } else {
             LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                items(cartItems) { item ->
+                items(cartItems) { item: CartItem ->
                     var quantity by remember { mutableStateOf(item.quantity) }
 
                     Card(modifier = Modifier.fillMaxWidth(), elevation = 4.dp) {

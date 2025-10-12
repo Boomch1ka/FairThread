@@ -2,7 +2,7 @@ package com.example.fairthread.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fairthread.data.model.CartItem
+import com.example.fairthread.model.CartItem
 import com.example.fairthread.data.repository.FirestoreRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

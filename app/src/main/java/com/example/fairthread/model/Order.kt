@@ -2,7 +2,7 @@ package com.example.fairthread.model
 
 data class Order(
     val id: String,
-    val date: String,
-    val total: Double,
-    val status: String // e.g. "Delivered", "Pending"
+    val items: List<CartItem>,
+    val timestamp: String,
+    //val status: String // e.g. "Delivered", "Pending"
 )

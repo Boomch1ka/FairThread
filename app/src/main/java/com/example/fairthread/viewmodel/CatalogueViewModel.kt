@@ -19,14 +19,30 @@ class CatalogueViewModel(
 
     private val _products = MutableStateFlow<List<Product>>(emptyList())
     val products: StateFlow<List<Product>> = _products
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> = _errorMessage
+
 
     fun loadCatalogue() {
         viewModelScope.launch {
             try {
                 _categories.value = api.getCategories()
-                _products.value = api.getProducts()
+                _products.value = api.getProducts() // Load all products
+                _errorMessage.value = null
             } catch (e: Exception) {
-                // Handle error state if needed
+                _errorMessage.value = e.message
+            }
+        }
+    }
+
+    fun filterProductsByCategory(categoryId: String) {
+        viewModelScope.launch {
+            try {
+                val allProducts = api.getProducts()
+                _products.value = allProducts.filter { product -> product.category == categoryId }
+                _errorMessage.value = null
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
             }
         }
     }

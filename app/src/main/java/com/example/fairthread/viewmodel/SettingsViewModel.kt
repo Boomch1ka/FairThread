@@ -30,7 +30,6 @@ class SettingsViewModel(
         }
     }
 
-
     fun loadSettings(uid: String) {
         viewModelScope.launch {
             _settings.value = repo.getUserSettings(uid)
