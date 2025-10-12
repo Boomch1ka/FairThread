@@ -16,7 +16,7 @@ import com.example.fairthread.ui.components.FairThreadBackground
 import com.example.fairthread.ui.theme.ButtonColor
 import com.example.fairthread.ui.theme.ButtonTextColor
 import com.example.fairthread.viewmodel.AuthViewModel
-import com.example.fairthread.viewmodel.ForgotPasswordViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun ForgotPasswordScreen(
@@ -25,6 +25,7 @@ fun ForgotPasswordScreen(
 ) {
     val context = LocalContext.current
     val authState by viewModel.authState.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
 
     var email by remember { mutableStateOf("") }
 
@@ -59,7 +60,11 @@ fun ForgotPasswordScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-            onClick = { viewModel.resetPassword(email.trim()) },
+            onClick = {
+                coroutineScope.launch {
+                    viewModel.resetPassword(email.trim())
+                }
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Send Reset Link")

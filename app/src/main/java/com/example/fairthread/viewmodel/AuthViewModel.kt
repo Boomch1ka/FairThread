@@ -24,7 +24,7 @@ class AuthViewModel(private val repo: AuthRepository = AuthRepository()) : ViewM
         }
     }
 
-    fun resetPassword(email: String) {
+    suspend fun resetPassword(email: String) {
         _authState.value = repo.sendPasswordReset(email)
     }
 

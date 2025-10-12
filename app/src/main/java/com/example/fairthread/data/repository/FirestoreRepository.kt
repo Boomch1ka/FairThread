@@ -27,6 +27,14 @@ class FirestoreRepository(
             .await()
     }
 
+    suspend fun isUserRegistered(email: String): Boolean {
+        val snapshot = firestore.collection("users")
+            .whereEqualTo("email", email)
+            .get()
+            .await()
+        return !snapshot.isEmpty
+    }
+
     // Fetch cart items
     suspend fun getCartItems(uid: String): List<CartItem> {
         val snapshot = firestore.collection("cart").document(uid).collection("items").get().await()
