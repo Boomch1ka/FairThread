@@ -6,6 +6,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import com.example.fairthread.model.Product
+import com.example.fairthread.model.Store
 import com.google.firebase.auth.FirebaseAuth
 
 class FirestoreRepository(
@@ -33,6 +34,44 @@ class FirestoreRepository(
             .get()
             .await()
         return !snapshot.isEmpty
+    }
+
+    suspend fun getStores(): List<Store> {
+        val snapshot = firestore.collection("stores").get().await()
+        return snapshot.documents.mapNotNull { doc ->
+            val data = doc.data ?: return@mapNotNull null
+            Store(
+                id = doc.id,
+                name = data["name"]?.toString() ?: "Unnamed Store",
+                description = data["description"]?.toString() ?: ""
+            )
+        }
+    }
+
+    suspend fun getStoreById(storeId: String): Store? {
+        val doc = firestore.collection("stores").document(storeId).get().await()
+        val data = doc.data ?: return null
+        return Store(
+            id = doc.id,
+            name = data["name"]?.toString() ?: "Unnamed Store",
+            description = data["description"]?.toString() ?: ""
+        )
+    }
+
+    suspend fun getProductsByStore(storeId: String): List<Product> {
+        val snapshot = firestore.collection("products")
+            .whereEqualTo("storeId", storeId)
+            .get()
+            .await()
+        return snapshot.documents.mapNotNull { doc ->
+            val data = doc.data ?: return@mapNotNull null
+            Product(
+                id = doc.id,
+                name = data["name"]?.toString() ?: "",
+                price = data["price"]?.toString()?.toDoubleOrNull() ?: 0.0,
+                category = data["category"]?.toString() ?: ""
+            )
+        }
     }
 
     // Fetch cart items

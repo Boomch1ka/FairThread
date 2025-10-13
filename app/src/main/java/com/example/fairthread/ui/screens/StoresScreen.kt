@@ -15,34 +15,44 @@ import com.example.fairthread.viewmodel.StoresViewModel
 @Composable
 fun StoresScreen(navController: NavHostController, viewModel: StoresViewModel = viewModel()) {
     val stores by viewModel.stores.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.loadStores()
     }
 
     Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
-        Text("Stores", style = MaterialTheme.typography.h5)
-
+        Text("🏬 Explore Stores", style = MaterialTheme.typography.h5)
         Spacer(modifier = Modifier.height(16.dp))
 
-        LazyColumn {
-            items(stores) { store ->
-                val storeId = store["id"]?.toString() ?: ""
-                val name = store["name"]?.toString() ?: "Unnamed Store"
-                val description = store["description"]?.toString() ?: ""
-
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp)
-                        .clickable {
-                            navController.navigate("store/$storeId")
-                        },
-                    elevation = 4.dp
-                ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Text(name, style = MaterialTheme.typography.subtitle1)
-                        Text(description, style = MaterialTheme.typography.body2)
+        when {
+            isLoading -> {
+                CircularProgressIndicator()
+            }
+            errorMessage != null -> {
+                Text("Error: $errorMessage", color = MaterialTheme.colors.error)
+            }
+            stores.isEmpty() -> {
+                Text("No stores available.")
+            }
+            else -> {
+                LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    items(stores) { store ->
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                                .clickable {
+                                    navController.navigate("store/${store.id}")
+                                },
+                                    elevation = 4.dp
+                        ) {
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                Text(store.name, style = MaterialTheme.typography.subtitle1)
+                                Text(store.description, style = MaterialTheme.typography.body2)
+                            }
+                        }
                     }
                 }
             }

@@ -17,13 +17,14 @@ import com.example.fairthread.viewmodel.CatalogueViewModel
 fun CatalogueScreen(navController: NavHostController, viewModel: CatalogueViewModel = viewModel()) {
     val categories by viewModel.categories.collectAsState()
     val products by viewModel.products.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.loadCatalogue()
     }
 
     Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
-        Text("Catalogue", style = MaterialTheme.typography.h5)
+        Text("🛍️ Catalogue", style = MaterialTheme.typography.h5)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -32,10 +33,7 @@ fun CatalogueScreen(navController: NavHostController, viewModel: CatalogueViewMo
             items(categories) { category ->
                 Card(
                     modifier = Modifier
-                        .padding(vertical = 8.dp)
-                        .clickable {
-                            // Optional: filter products by category
-                        },
+                        .clickable { viewModel.filterProductsByCategory(category.id) },
                     elevation = 4.dp
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
@@ -48,19 +46,30 @@ fun CatalogueScreen(navController: NavHostController, viewModel: CatalogueViewMo
         Spacer(modifier = Modifier.height(24.dp))
 
         Text("Products", style = MaterialTheme.typography.subtitle1)
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            items(products) { product ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            navController.navigate("product/${product.id}")
-                        },
-                    elevation = 4.dp
-                ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Text(product.name, style = MaterialTheme.typography.body1)
-                        Text("R${product.price}", style = MaterialTheme.typography.body2)
+
+        when {
+            errorMessage != null -> {
+                Text("Error: ${errorMessage}", color = MaterialTheme.colors.error)
+            }
+            products.isEmpty() -> {
+                Text("No products found for this category.")
+            }
+            else -> {
+                LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    items(products) { product ->
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    navController.navigate("product/${product.id}")
+                                },
+                            elevation = 4.dp
+                        ) {
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                Text(product.name, style = MaterialTheme.typography.body1)
+                                Text("R${product.price}", style = MaterialTheme.typography.body2)
+                            }
+                        }
                     }
                 }
             }
