@@ -38,7 +38,6 @@ fun HomeScreen(navController: NavController) {
                     tint = MaterialTheme.colors.onSurface
                 )
 
-
                 var searchQuery by remember { mutableStateOf("") }
 
                 TextField(
@@ -58,14 +57,6 @@ fun HomeScreen(navController: NavController) {
                         }
                     )
                 )
-
-                Icon(
-                    imageVector = Icons.Filled.Home,
-                    contentDescription = "View Icon",
-                    modifier = Modifier.size(40.dp),
-                    tint = MaterialTheme.colors.onSurface
-                )
-
             }
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -77,7 +68,7 @@ fun HomeScreen(navController: NavController) {
                 Text("Browse Catalogue")
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             Button(
                 onClick = { navController.navigate("cart") },
@@ -86,7 +77,7 @@ fun HomeScreen(navController: NavController) {
                 Text("View Cart")
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             Button(
                 onClick = { navController.navigate("stores") },
@@ -95,7 +86,7 @@ fun HomeScreen(navController: NavController) {
                 Text("Explore Stores")
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             Button(
                 onClick = { navController.navigate("settings") },
@@ -105,28 +96,6 @@ fun HomeScreen(navController: NavController) {
             }
 
             Spacer(modifier = Modifier.height(24.dp))
-
-            // Specials Section
-            Text(
-                text = "Specials",
-                fontSize = 20.sp,
-                color = WhiteText
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Column {
-                listOf("50%", "25%", "50%", "60%").forEach { label ->
-                    Button(
-                        onClick = { /* Navigate or show offer */ },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 4.dp)
-                    ) {
-                        Text(label)
-                    }
-                }
-            }
         }
     }
 }
