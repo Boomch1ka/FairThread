@@ -15,13 +15,23 @@ open class ProductViewModel(
     private val repo: FirestoreRepository = FirestoreRepository()
 ) : ViewModel() {
 
-    val _product = MutableStateFlow<Product?>(null)
+    private val _product = MutableStateFlow<Product?>(null)
     val product: StateFlow<Product?> = _product
+    val isLoading = MutableStateFlow(false)
+    val errorMessage = MutableStateFlow<String?>(null)
 
     fun loadProduct(productId: String) {
         viewModelScope.launch {
-            val products = NetworkModule.api.getProducts()
-            _product.value = products.find { it.id == productId }
+            isLoading.value = true
+            try {
+                val products = NetworkModule.api.getProducts()
+                _product.value = products.find { it.id == productId }
+                errorMessage.value = if (_product.value == null) "Product not found" else null
+            } catch (e: Exception) {
+                errorMessage.value = e.message
+            } finally {
+                isLoading.value = false
+            }
         }
     }
 

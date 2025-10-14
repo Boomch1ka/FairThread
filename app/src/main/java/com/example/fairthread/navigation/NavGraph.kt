@@ -69,6 +69,12 @@ fun NavGraph(
             StoresScreen(navController = navController)
         }
 
+        // 🏪 Store Landing Page (shows categories)
+        composable("store/{storeId}") { backStackEntry ->
+            val storeId = backStackEntry.arguments?.getString("storeId") ?: ""
+            StoreScreen(storeId = storeId, navController = navController)
+        }
+
         // 🏪 Store Details
         composable("store/{storeId}/category/{category}") { backStackEntry ->
             val storeId = backStackEntry.arguments?.getString("storeId") ?: ""
