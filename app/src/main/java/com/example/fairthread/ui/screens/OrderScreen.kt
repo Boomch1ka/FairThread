@@ -13,6 +13,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.fairthread.ui.components.FairThreadScaffold
 import com.example.fairthread.viewmodel.OrderViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Composable
 fun OrderScreen(uid: String, navController: NavHostController, viewModel: OrderViewModel = viewModel()) {
@@ -28,26 +30,46 @@ fun OrderScreen(uid: String, navController: NavHostController, viewModel: OrderV
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(24.dp)
-        )
-        {
+        ) {
             Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
                 Spacer(modifier = Modifier.height(16.dp))
 
-                LazyColumn {
-                    items(orders) { order ->
-                        Card(modifier = Modifier.fillMaxWidth(), elevation = 4.dp) {
-                            Column(modifier = Modifier.padding(16.dp)) {
-                                order.items.forEach {
-                                    Text("${it.quantity} x ${it.name} - R${it.price}")
+                if (orders.isEmpty()) {
+                    Text("You haven't placed any orders yet.")
+                } else {
+                    LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                        items(orders) { order ->
+                            val total = order.items.sumOf { it.price * it.quantity }
+                            val formattedDate = formatTimestamp(order.timestamp)
+
+                            Card(modifier = Modifier.fillMaxWidth(), elevation = 4.dp) {
+                                Column(modifier = Modifier.padding(16.dp)) {
+                                    Text("Order ID: ${order.id}", style = MaterialTheme.typography.subtitle2)
+                                    Spacer(modifier = Modifier.height(8.dp))
+
+                                    order.items.forEach {
+                                        Text("- ${it.quantity} x ${it.name} @ R${it.price}", style = MaterialTheme.typography.body2)
+                                    }
+
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text("Total: R${"%.2f".format(total)}", style = MaterialTheme.typography.body1)
                                 }
-                                Spacer(modifier = Modifier.height(8.dp))
-                                Text("Placed: ${order.timestamp}")
                             }
                         }
-                        Spacer(modifier = Modifier.height(12.dp))
                     }
                 }
             }
         }
+    }
+}
+
+fun formatTimestamp(raw: String): String {
+    return try {
+        val millis = raw.toLongOrNull() ?: return raw
+        val date = Date(millis)
+        val formatter = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
+        formatter.format(date)
+    } catch (e: Exception) {
+        raw
     }
 }

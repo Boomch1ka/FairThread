@@ -71,7 +71,7 @@ fun SettingsScreen(
         ) {
             Text("Settings", fontSize = 24.sp, color = MaterialTheme.colors.onSurface)
             Spacer(modifier = Modifier.height(24.dp))
-
+/*
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
@@ -117,7 +117,7 @@ fun SettingsScreen(
             }
 
             Spacer(modifier = Modifier.height(12.dp))
-
+ */
             Button(
                 onClick = {
                     authViewModel.logout()
