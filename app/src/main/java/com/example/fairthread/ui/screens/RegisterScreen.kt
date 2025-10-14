@@ -9,19 +9,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.fairthread.ui.components.FairThreadBackground
-import com.example.fairthread.ui.theme.ButtonColor
-import com.example.fairthread.ui.theme.ButtonTextColor
 import com.example.fairthread.ui.theme.WhiteText
 import com.example.fairthread.viewmodel.AuthViewModel
 
 @Composable
-fun RegisterScreen(navController: NavController, viewModel: AuthViewModel = viewModel()
+fun RegisterScreen(
+    navController: NavController,
+    viewModel: AuthViewModel = viewModel()
 ) {
-
     val context = LocalContext.current
     val authState by viewModel.authState.collectAsState()
 
@@ -29,6 +27,7 @@ fun RegisterScreen(navController: NavController, viewModel: AuthViewModel = view
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+    var isValidating by remember { mutableStateOf(false) }
 
     LaunchedEffect(authState) {
         authState?.onSuccess {
@@ -96,17 +95,26 @@ fun RegisterScreen(navController: NavController, viewModel: AuthViewModel = view
 
             Button(
                 onClick = {
-                    if (password == confirmPassword) {
-                        viewModel.register(email.trim(), password.trim())
-                    } else {
+                    if (password != confirmPassword) {
                         Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()
+                        return@Button
+                    }
+
+                    isValidating = true
+                    viewModel.validateEmailBeforeRegister(email.trim()) { isValid, error ->
+                        isValidating = false
+                        if (isValid) {
+                            viewModel.register(email.trim(), password.trim())
+                        } else {
+                            Toast.makeText(context, error ?: "Invalid email", Toast.LENGTH_LONG).show()
+                        }
                     }
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !isValidating
             ) {
-                Text("Register")
+                Text(if (isValidating) "Validating..." else "Register")
             }
-
 
             Spacer(modifier = Modifier.height(12.dp))
 
