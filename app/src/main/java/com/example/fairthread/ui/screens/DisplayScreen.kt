@@ -1,7 +1,12 @@
 package com.example.fairthread.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -12,62 +17,60 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.fairthread.ui.components.FairThreadBackground
 import com.example.fairthread.ui.theme.ButtonColor
 import com.example.fairthread.ui.theme.ButtonTextColor
 import com.example.fairthread.viewmodel.DisplayViewModel
 
 @Composable
-fun DisplayScreen(navController: NavController, viewModel: DisplayViewModel = viewModel()) {
-    val items by viewModel.items.collectAsState()
+fun DisplayScreen(storeId: String, category: String, navController: NavHostController, viewModel: DisplayViewModel = viewModel()) {
+    val products by viewModel.products.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
 
-    FairThreadBackground {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Display",
-                fontSize = 24.sp,
-                color = MaterialTheme.colors.onSurface
+    LaunchedEffect(Unit) {
+        viewModel.loadProducts(storeId, category)
+    }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Category: ${category.capitalize()}") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                }
             )
+        }
+    ) { paddingValues ->
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .padding(16.dp)) {
 
-            Spacer(modifier = Modifier.height(24.dp))
-
-            LaunchedEffect(Unit) {
-                viewModel.loadDisplayItems()
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Button(
-                onClick = { /* navController.navigate("nikeDetails") */ },
-                colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Nike", color = ButtonTextColor)
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = { /* navController.navigate("shoesDetails") */ },
-                colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Shoes", color = ButtonTextColor)
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = { /* navController.navigate("info") */ },
-                colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Info", color = ButtonTextColor)
+            when {
+                isLoading -> CircularProgressIndicator()
+                errorMessage != null -> Text("Error: $errorMessage", color = MaterialTheme.colors.error)
+                products.isEmpty() -> Text("No products found in this category.")
+                else -> {
+                    LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                        items(products) { product ->
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable { navController.navigate("product/${product.id}") },
+                                elevation = 4.dp
+                            ) {
+                                Column(modifier = Modifier.padding(16.dp)) {
+                                    Text(product.name, style = MaterialTheme.typography.body1)
+                                    Text("R${product.price}", style = MaterialTheme.typography.body2)
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

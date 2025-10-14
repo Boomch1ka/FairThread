@@ -43,11 +43,6 @@ fun NavGraph(
             CatalogueScreen(navController = navController)
         }
 
-        // 📦 Product Details
-        composable("product/{productId}") { backStackEntry ->
-            val productId = backStackEntry.arguments?.getString("productId") ?: ""
-            ProductDetailsScreen(productId = productId, navController = navController)
-        }
 
         // 🛒 Cart
         composable("cart") {
@@ -75,10 +70,19 @@ fun NavGraph(
         }
 
         // 🏪 Store Details
-        composable("store/{storeId}") { backStackEntry ->
+        composable("store/{storeId}/category/{category}") { backStackEntry ->
             val storeId = backStackEntry.arguments?.getString("storeId") ?: ""
-            StoreScreen(storeId = storeId, navController = navController)
+            val category = backStackEntry.arguments?.getString("category") ?: ""
+            DisplayScreen(storeId = storeId, category = category, navController = navController)
         }
+
+        // 📦 Product Details
+        composable("product/{productId}") { backStackEntry ->
+            val productId = backStackEntry.arguments?.getString("productId") ?: ""
+            ProductDetailsScreen(productId = productId, navController = navController)
+        }
+
+
 
         // 📬 Inbox (Gmail API) — Optional
         /*

@@ -11,11 +11,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-class ProductViewModel(
+open class ProductViewModel(
     private val repo: FirestoreRepository = FirestoreRepository()
 ) : ViewModel() {
 
-    private val _product = MutableStateFlow<Product?>(null)
+    val _product = MutableStateFlow<Product?>(null)
     val product: StateFlow<Product?> = _product
 
     fun loadProduct(productId: String) {

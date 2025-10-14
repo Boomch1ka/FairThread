@@ -74,6 +74,25 @@ class FirestoreRepository(
         }
     }
 
+    suspend fun getProductsByStoreAndCategory(storeId: String, category: String): List<Product> {
+        val snapshot = firestore.collection("products")
+            .whereEqualTo("storeId", storeId)
+            .whereEqualTo("category", category)
+            .get()
+            .await()
+
+        return snapshot.documents.mapNotNull { doc ->
+            val data = doc.data ?: return@mapNotNull null
+            Product(
+                id = doc.id,
+                name = data["name"]?.toString() ?: "",
+                price = data["price"]?.toString()?.toDoubleOrNull() ?: 0.0,
+                category = category,
+                storeId = storeId
+            )
+        }
+    }
+
     // Fetch cart items
     suspend fun getCartItems(uid: String): List<CartItem> {
         val snapshot = firestore.collection("cart").document(uid).collection("items").get().await()

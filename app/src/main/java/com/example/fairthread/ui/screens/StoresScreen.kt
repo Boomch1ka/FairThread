@@ -5,12 +5,19 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.fairthread.model.Store
+import com.example.fairthread.ui.preview.PreviewWrapper
 import com.example.fairthread.viewmodel.StoresViewModel
+import com.example.fairthread.ui.theme.FairThreadTheme
 
 @Composable
 fun StoresScreen(navController: NavHostController, viewModel: StoresViewModel = viewModel()) {
@@ -22,40 +29,80 @@ fun StoresScreen(navController: NavHostController, viewModel: StoresViewModel = 
         viewModel.loadStores()
     }
 
-    Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
-        Text("🏬 Explore Stores", style = MaterialTheme.typography.h5)
-        Spacer(modifier = Modifier.height(16.dp))
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Stores") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        ) {
+            Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
+                when {
+                    isLoading -> {
+                        CircularProgressIndicator()
+                    }
 
-        when {
-            isLoading -> {
-                CircularProgressIndicator()
-            }
-            errorMessage != null -> {
-                Text("Error: $errorMessage", color = MaterialTheme.colors.error)
-            }
-            stores.isEmpty() -> {
-                Text("No stores available.")
-            }
-            else -> {
-                LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    items(stores) { store ->
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp)
-                                .clickable {
-                                    navController.navigate("store/${store.id}")
-                                },
+                    errorMessage != null -> {
+                        Text("Error: $errorMessage", color = MaterialTheme.colors.error)
+                    }
+
+                    stores.isEmpty() -> {
+                        Text("No stores available.")
+                    }
+
+                    else -> {
+                        LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                            items(stores) { store ->
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 8.dp)
+                                        .clickable {
+                                            navController.navigate("store/${store.id}")
+                                        },
                                     elevation = 4.dp
-                        ) {
-                            Column(modifier = Modifier.padding(16.dp)) {
-                                Text(store.name, style = MaterialTheme.typography.subtitle1)
-                                Text(store.description, style = MaterialTheme.typography.body2)
+                                ) {
+                                    Column(modifier = Modifier.padding(16.dp)) {
+                                        Text(store.name, style = MaterialTheme.typography.subtitle1)
+                                        Text(
+                                            store.description,
+                                            style = MaterialTheme.typography.body2
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewStoresScreen() {
+    val mockViewModel = object : StoresViewModel() {
+        init {
+            _stores.value = listOf(
+                Store("threadco", "Thread & Co", "Local fashion boutique"),
+                Store("gearhub", "GearHub", "Outdoor gear and accessories")
+            )
+        }
+    }
+
+    PreviewWrapper {
+        StoresScreen(navController = rememberNavController(), viewModel = mockViewModel)
     }
 }

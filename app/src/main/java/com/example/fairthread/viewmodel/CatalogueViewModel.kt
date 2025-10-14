@@ -10,14 +10,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class CatalogueViewModel(
+open class CatalogueViewModel(
     private val api: FairThreadApi = NetworkModule.api
 ) : ViewModel() {
 
-    private val _categories = MutableStateFlow<List<Category>>(emptyList())
+    val _categories = MutableStateFlow<List<Category>>(emptyList())
     val categories: StateFlow<List<Category>> = _categories
 
-    private val _products = MutableStateFlow<List<Product>>(emptyList())
+    val _products = MutableStateFlow<List<Product>>(emptyList())
     val products: StateFlow<List<Product>> = _products
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage
