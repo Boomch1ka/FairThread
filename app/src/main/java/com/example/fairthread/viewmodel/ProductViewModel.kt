@@ -3,7 +3,6 @@ package com.example.fairthread.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fairthread.data.repository.FirestoreRepository
-import com.example.fairthread.di.NetworkModule
 import com.example.fairthread.model.Product
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,11 +23,17 @@ open class ProductViewModel(
         viewModelScope.launch {
             isLoading.value = true
             try {
-                val products = NetworkModule.api.getProducts()
-                _product.value = products.find { it.id == productId }
-                errorMessage.value = if (_product.value == null) "Product not found" else null
+                val snapshot = FirebaseFirestore.getInstance()
+                    .collection("products")
+                    .document(productId)
+                    .get()
+                    .await()
+
+                val product = snapshot.toObject(Product::class.java)
+                _product.value = product?.copy(id = snapshot.id)
+                errorMessage.value = if (product == null) "Product not found" else null
             } catch (e: Exception) {
-                errorMessage.value = e.message
+                errorMessage.value = "Failed to load product: ${e.message}"
             } finally {
                 isLoading.value = false
             }
