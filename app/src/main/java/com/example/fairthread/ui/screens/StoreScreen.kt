@@ -31,8 +31,10 @@ fun StoreScreen(storeId: String, navController: NavHostController, viewModel: St
     val errorMessage by viewModel.errorMessage.collectAsState()
 
     LaunchedEffect(storeId) {
-        viewModel.loadStore(storeId)
-        viewModel.loadStoreCategories(storeId)
+        if (storeId.isNotBlank()) {
+            viewModel.loadStore(storeId)
+            viewModel.loadStoreCategories(storeId)
+        }
     }
 
     Scaffold(

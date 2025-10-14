@@ -2,6 +2,8 @@ package com.example.fairthread.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,38 +24,47 @@ fun ProductDetailsScreen(
     viewModel: ProductViewModel = viewModel()
 ) {
     val product by viewModel.product.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
+
 
     LaunchedEffect(productId) {
         viewModel.loadProduct(productId)
     }
 
-    product?.let {
-        Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
-            Text(it.name, style = MaterialTheme.typography.h5)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text("R${it.price}", style = MaterialTheme.typography.body1)
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { viewModel.addToCart(it) }) {
-                Text("Add to Cart")
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(product?.name ?: "Product Details") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .padding(24.dp)) {
+            when {
+                isLoading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                errorMessage != null -> Text("Error: $errorMessage", color = MaterialTheme.colors.error)
+                product != null -> {
+                    Column {
+                        Text(product!!.name, style = MaterialTheme.typography.h5)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text("R${product!!.price}", style = MaterialTheme.typography.body1)
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Button(onClick = { viewModel.addToCart(product!!) }) {
+                            Text("Add to Cart")
+                        }
+                    }
+                }
+                else -> Text("Product not found", color = MaterialTheme.colors.error)
             }
-        }
-    } ?: run {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator()
-        }
-    }
-}
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewProductDetailsScreen() {
-    val mockViewModel = object : ProductViewModel() {
-        init {
-            _product.value = Product("1", "Denim Jacket", 499.99, "clothing")
         }
-    }
-
-    PreviewWrapper {
-        ProductDetailsScreen(productId = "1", navController = rememberNavController(), viewModel = mockViewModel)
     }
 }
