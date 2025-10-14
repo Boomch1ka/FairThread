@@ -30,6 +30,15 @@ fun StoresScreen(navController: NavHostController, viewModel: StoresViewModel = 
     }
 
     Scaffold(
+        drawerContent = {
+            Text("FairThread", style = MaterialTheme.typography.h6, modifier = Modifier.padding(16.dp))
+            Divider()
+            DrawerItem("Home") { navController.navigate("home") }
+            DrawerItem("Stores") { navController.navigate("stores") }
+            DrawerItem("Cart") { navController.navigate("cart") }
+            DrawerItem("Orders") { navController.navigate("orders") }
+            DrawerItem("Settings") { navController.navigate("settings") }
+        },
         topBar = {
             TopAppBar(
                 title = { Text("Stores") },
@@ -87,22 +96,5 @@ fun StoresScreen(navController: NavHostController, viewModel: StoresViewModel = 
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewStoresScreen() {
-    val mockViewModel = object : StoresViewModel() {
-        init {
-            _stores.value = listOf(
-                Store("threadco", "Thread & Co", "Local fashion boutique"),
-                Store("gearhub", "GearHub", "Outdoor gear and accessories")
-            )
-        }
-    }
-
-    PreviewWrapper {
-        StoresScreen(navController = rememberNavController(), viewModel = mockViewModel)
     }
 }

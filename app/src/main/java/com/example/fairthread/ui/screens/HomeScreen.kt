@@ -28,9 +28,9 @@ fun HomeScreen(navController: NavController) {
     Scaffold(
         scaffoldState = scaffoldState,
         drawerContent = {
-            Text("Navigation", style = MaterialTheme.typography.h6, modifier = Modifier.padding(16.dp))
+            Text("FairThread", style = MaterialTheme.typography.h6, modifier = Modifier.padding(16.dp))
             Divider()
-            DrawerItem("Catalogue") { navController.navigate("catalogue") }
+            DrawerItem("Home") { navController.navigate("home") }
             DrawerItem("Stores") { navController.navigate("stores") }
             DrawerItem("Cart") { navController.navigate("cart") }
             DrawerItem("Orders") { navController.navigate("orders") }

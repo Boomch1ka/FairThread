@@ -1,5 +1,6 @@
 package com.example.fairthread.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -32,6 +33,15 @@ fun CartScreen(uid: String, navController: NavHostController, viewModel: CartVie
                     }
                 }
             )
+        },
+        drawerContent = {
+            Text("FairThread", style = MaterialTheme.typography.h6, modifier = Modifier.padding(16.dp))
+            Divider()
+            DrawerItem("Home") { navController.navigate("home") }
+            DrawerItem("Stores") { navController.navigate("stores") }
+            DrawerItem("Cart") { navController.navigate("cart") }
+            DrawerItem("Orders") { navController.navigate("orders") }
+            DrawerItem("Settings") { navController.navigate("settings") }
         }
     ) { paddingValues ->
         Box(modifier = Modifier
@@ -84,5 +94,5 @@ fun CartScreen(uid: String, navController: NavHostController, viewModel: CartVie
                 }
             }
         }
-        }
+    }
 }
