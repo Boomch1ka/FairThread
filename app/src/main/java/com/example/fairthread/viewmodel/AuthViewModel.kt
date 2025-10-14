@@ -1,12 +1,16 @@
 package com.example.fairthread.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fairthread.data.repository.AuthRepository
 import com.example.fairthread.di.NetworkModule
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.URL
 
 class AuthViewModel(private val repo: AuthRepository = AuthRepository()) : ViewModel() {
 
@@ -19,16 +23,42 @@ class AuthViewModel(private val repo: AuthRepository = AuthRepository()) : ViewM
         }
     }
 
+
+    fun testManualEmailValidation() {
+        viewModelScope.launch {
+            try {
+                val url = "https://emailvalidation.abstractapi.com/v1/?api_key=050772f4799540208d369de7afe782a6&email=test@example.com"
+                val result = withContext(Dispatchers.IO) {
+                    URL(url).readText()
+                }
+                Log.d("EmailValidation", "Manual response: $result")
+                Log.d("EmailValidation", "Button clicked")
+            } catch (e: Exception) {
+                Log.e("EmailValidation", "Manual call failed: ${e.message}")
+            }
+        }
+    }
+
     fun validateEmailBeforeRegister(email: String, onResult: (Boolean, String?) -> Unit) {
         viewModelScope.launch {
             try {
-                val response = NetworkModule.emailApi.validateEmail("050772f4799540208d369de7afe782a6", email)
-                val isValid = response.is_valid_format.value &&
-                        response.is_smtp_valid == true &&
-                        response.is_disposable_email == false &&
-                        response.is_role_email == false
+                val response = NetworkModule.emailApi.validateEmail("050772f4799540208d369de7afe782a6", email.trim())
 
-                onResult(isValid, if (isValid) null else "Invalid or suspicious email address.")
+                val url = "https://emailvalidation.abstractapi.com/v1/?api_key=your_actual_api_key&email=test@example.com"
+                Log.d("EmailValidation", "Manual URL: $url")
+                //Log.d("EmailValidation", "Quality score: ${response.quality_score}")
+
+                val isValidFormat = response.is_valid_format.value
+                val isSmtpValid = response.is_smtp_valid == true
+                val isDisposable = response.is_disposable_email == false
+                val isRoleEmail = response.is_role_email == false
+                val qualityScore = response.quality_score?.toDoubleOrNull() ?: 0.0
+
+                val isHighQuality = qualityScore >= 0.7
+
+                val isValid = isValidFormat && isSmtpValid && isDisposable && isRoleEmail && isHighQuality
+
+                onResult(isValid, if (isValid) null else "Email failed quality check. Try a different address.")
             } catch (e: Exception) {
                 onResult(false, "Validation failed: ${e.message}")
             }
