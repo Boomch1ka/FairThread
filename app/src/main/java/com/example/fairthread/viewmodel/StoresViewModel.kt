@@ -10,11 +10,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-class StoresViewModel(
+open class StoresViewModel(
     private val repo: FirestoreRepository = FirestoreRepository()
 ) : ViewModel() {
 
-    private val _stores = MutableStateFlow<List<Store>>(emptyList())
+    val _stores = MutableStateFlow<List<Store>>(emptyList())
     val stores: StateFlow<List<Store>> = _stores
 
     private val _isLoading = MutableStateFlow(false)

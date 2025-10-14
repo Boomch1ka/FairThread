@@ -8,9 +8,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.fairthread.model.Category
+import com.example.fairthread.model.Product
+import com.example.fairthread.ui.preview.PreviewWrapper
+import com.example.fairthread.ui.theme.FairThreadTheme
 import com.example.fairthread.viewmodel.CatalogueViewModel
 
 @Composable
@@ -74,5 +80,26 @@ fun CatalogueScreen(navController: NavHostController, viewModel: CatalogueViewMo
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewCatalogueScreen() {
+    val mockViewModel = object : CatalogueViewModel() {
+        init {
+            _categories.value = listOf(
+                Category("clothing", "Clothing"),
+                Category("accessories", "Accessories")
+            )
+            _products.value = listOf(
+                Product("1", "Denim Jacket", 499.99, "clothing"),
+                Product("2", "Leather Belt", 199.99, "accessories")
+            )
+        }
+    }
+
+    PreviewWrapper {
+        CatalogueScreen(navController = rememberNavController(), viewModel = mockViewModel)
     }
 }

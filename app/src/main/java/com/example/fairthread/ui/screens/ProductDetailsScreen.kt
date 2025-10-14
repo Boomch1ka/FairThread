@@ -5,9 +5,14 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.fairthread.model.Product
+import com.example.fairthread.ui.preview.PreviewWrapper
+import com.example.fairthread.ui.theme.FairThreadTheme
 import com.example.fairthread.viewmodel.ProductViewModel
 
 @Composable
@@ -36,5 +41,19 @@ fun ProductDetailsScreen(
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewProductDetailsScreen() {
+    val mockViewModel = object : ProductViewModel() {
+        init {
+            _product.value = Product("1", "Denim Jacket", 499.99, "clothing")
+        }
+    }
+
+    PreviewWrapper {
+        ProductDetailsScreen(productId = "1", navController = rememberNavController(), viewModel = mockViewModel)
     }
 }
