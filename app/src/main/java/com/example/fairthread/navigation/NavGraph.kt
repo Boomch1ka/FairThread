@@ -43,7 +43,6 @@ fun NavGraph(
             CatalogueScreen(navController = navController)
         }
 
-
         // 🛒 Cart
         composable("cart") {
             CartScreen(uid = uid, navController = navController)
