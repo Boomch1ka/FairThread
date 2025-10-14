@@ -1,4 +1,5 @@
 package com.example.fairthread.data.api
+/*
 
 import com.example.fairthread.data.api.dto.CategoryDto
 import com.example.fairthread.data.api.dto.ProductDto
@@ -27,3 +28,5 @@ interface FairThreadApi {
     @GET("stores/{id}")
     suspend fun getStoreById(@Path("id") storeId: String): StoreDto
 }
+
+ */
