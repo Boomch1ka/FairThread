@@ -29,7 +29,11 @@ fun RegisterScreen(
     var confirmPassword by remember { mutableStateOf("") }
     var isValidating by remember { mutableStateOf(false) }
 
-    LaunchedEffect(authState) {
+    LaunchedEffect(Unit) {
+        viewModel.testManualEmailValidation()
+    }
+
+     LaunchedEffect(authState) {
         authState?.onSuccess {
             navController.navigate("login") {
                 popUpTo("register") { inclusive = true }
@@ -38,6 +42,7 @@ fun RegisterScreen(
             Toast.makeText(context, it.message ?: "Registration failed", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     FairThreadBackground {
         Column(
@@ -102,12 +107,13 @@ fun RegisterScreen(
 
                     isValidating = true
                     viewModel.validateEmailBeforeRegister(email.trim()) { isValid, error ->
-                        isValidating = false
-                        if (isValid) {
-                            viewModel.register(email.trim(), password.trim())
-                        } else {
+                        if (!isValid) {
+                            isValidating = false
                             Toast.makeText(context, error ?: "Invalid email", Toast.LENGTH_LONG).show()
+                            return@validateEmailBeforeRegister
                         }
+
+                        viewModel.register(email.trim(), password.trim())
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
@@ -115,6 +121,14 @@ fun RegisterScreen(
             ) {
                 Text(if (isValidating) "Validating..." else "Register")
             }
+
+            Button(
+                onClick = { viewModel.testManualEmailValidation() },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Run Email API Test")
+            }
+
 
             Spacer(modifier = Modifier.height(12.dp))
 

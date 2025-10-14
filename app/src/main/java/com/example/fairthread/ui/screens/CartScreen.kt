@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -20,49 +22,67 @@ fun CartScreen(uid: String, navController: NavHostController, viewModel: CartVie
         viewModel.loadCart(uid)
     }
 
-    Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
-        Text("Your Cart", style = MaterialTheme.typography.h5)
-        Spacer(modifier = Modifier.height(16.dp))
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Your Cart") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .padding(24.dp))
+        {
+            Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
+                Spacer(modifier = Modifier.height(16.dp))
 
-        if (cartItems.isEmpty()) {
-            Text("Your cart is empty.")
-        } else {
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                items(cartItems) { item: CartItem ->
-                    var quantity by remember { mutableStateOf(item.quantity) }
+                if (cartItems.isEmpty()) {
+                    Text("Your cart is empty.")
+                } else {
+                    LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                        items(cartItems) { item: CartItem ->
+                            var quantity by remember { mutableStateOf(item.quantity) }
 
-                    Card(modifier = Modifier.fillMaxWidth(), elevation = 4.dp) {
-                        Column(modifier = Modifier.padding(16.dp)) {
-                            Text(item.name, style = MaterialTheme.typography.subtitle1)
-                            Text("R${item.price}", style = MaterialTheme.typography.body2)
+                            Card(modifier = Modifier.fillMaxWidth(), elevation = 4.dp) {
+                                Column(modifier = Modifier.padding(16.dp)) {
+                                    Text(item.name, style = MaterialTheme.typography.subtitle1)
+                                    Text("R${item.price}", style = MaterialTheme.typography.body2)
 
-                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                OutlinedTextField(
-                                    value = quantity.toString(),
-                                    onValueChange = {
-                                        quantity = it.toIntOrNull() ?: item.quantity
-                                        viewModel.updateQuantity(uid, item.id, quantity)
-                                    },
-                                    label = { Text("Qty") },
-                                    modifier = Modifier.width(100.dp)
-                                )
+                                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                        OutlinedTextField(
+                                            value = quantity.toString(),
+                                            onValueChange = {
+                                                quantity = it.toIntOrNull() ?: item.quantity
+                                                viewModel.updateQuantity(uid, item.id, quantity)
+                                            },
+                                            label = { Text("Qty") },
+                                            modifier = Modifier.width(100.dp)
+                                        )
 
-                                TextButton(onClick = { viewModel.removeItem(uid, item.id) }) {
-                                    Text("Remove")
+                                        TextButton(onClick = { viewModel.removeItem(uid, item.id) }) {
+                                            Text("Remove")
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Button(onClick = {
+                        navController.navigate("checkout")
+                    }, modifier = Modifier.fillMaxWidth()) {
+                        Text("Proceed to Checkout")
+                    }
                 }
             }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Button(onClick = {
-                navController.navigate("checkout")
-            }, modifier = Modifier.fillMaxWidth()) {
-                Text("Proceed to Checkout")
-            }
         }
-    }
+        }
 }
