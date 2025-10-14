@@ -26,7 +26,7 @@ Navigation handled through a NavGraph using a NavController
 Smooth transitions between Register, Login, Forgot Password, and Main/Home screens
 
 🎨 Modern UI
-
 Built with Jetpack Compose and Material 3 components
-
 Clean, minimalistic theme defined in FairThreadTheme.kt
+
+
