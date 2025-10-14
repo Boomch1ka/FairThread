@@ -17,6 +17,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.fairthread.model.Product
 import com.example.fairthread.model.Store
+import com.example.fairthread.ui.components.FairThreadScaffold
 import com.example.fairthread.ui.preview.PreviewWrapper
 import com.example.fairthread.ui.theme.FairThreadTheme
 import com.example.fairthread.viewmodel.StoreViewModel
@@ -37,27 +38,7 @@ fun StoreScreen(storeId: String, navController: NavHostController, viewModel: St
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(store?.name ?: "Store") },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                }
-            )
-        },
-        drawerContent = {
-            Text("FairThread", style = MaterialTheme.typography.h6, modifier = Modifier.padding(16.dp))
-            Divider()
-            DrawerItem("Home") { navController.navigate("home") }
-            DrawerItem("Stores") { navController.navigate("stores") }
-            DrawerItem("Cart") { navController.navigate("cart") }
-            DrawerItem("Orders") { navController.navigate("orders") }
-            DrawerItem("Settings") { navController.navigate("settings") }
-        }
-    ) { paddingValues ->
+    FairThreadScaffold(navController, title = store?.name ?: "Store") { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()

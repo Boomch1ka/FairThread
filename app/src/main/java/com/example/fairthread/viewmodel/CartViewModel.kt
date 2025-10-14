@@ -34,4 +34,11 @@ class CartViewModel(
             loadCart(uid)
         }
     }
+
+    fun clearCart(uid: String) {
+        viewModelScope.launch {
+            repo.clearCart(uid)
+            loadCart(uid) // refresh cart after clearing
+        }
+    }
 }

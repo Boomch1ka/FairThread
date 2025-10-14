@@ -3,6 +3,7 @@ package com.example.fairthread.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fairthread.data.repository.FirestoreRepository
+import com.example.fairthread.model.CartItem
 import com.example.fairthread.model.Order
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,4 +21,12 @@ class OrderViewModel(
             _orders.value = repo.getUserOrders(uid)
         }
     }
+
+    fun placeOrder(uid: String, items: List<CartItem>) {
+        viewModelScope.launch {
+            repo.submitOrder(uid, items)
+            loadOrders(uid) // refresh orders after placing
+        }
+    }
+
 }

@@ -34,46 +34,49 @@ fun ForgotPasswordScreen(
             Toast.makeText(context, "Reset link sent to $email", Toast.LENGTH_LONG).show()
             navController.popBackStack()
         }?.onFailure {
-            Toast.makeText(context, it.message ?: "Failed to send reset link", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, it.message ?: "Failed to send reset link", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Reset Password", style = MaterialTheme.typography.h4)
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("Email") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Button(
-            onClick = {
-                coroutineScope.launch {
-                    viewModel.resetPassword(email.trim())
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
+    FairThreadBackground {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Send Reset Link")
-        }
+            Text("Reset Password", style = MaterialTheme.typography.h4)
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-        TextButton(onClick = { navController.popBackStack() }) {
-            Text("Back to Login")
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("Email") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Button(
+                onClick = {
+                    coroutineScope.launch {
+                        viewModel.resetPassword(email.trim())
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Send Reset Link")
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            TextButton(onClick = { navController.popBackStack() }) {
+                Text("Back to Login")
+            }
         }
     }
 }

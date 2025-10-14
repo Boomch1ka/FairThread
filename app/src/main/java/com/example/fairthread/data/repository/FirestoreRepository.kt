@@ -7,7 +7,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import com.example.fairthread.model.Product
 import com.example.fairthread.model.Store
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.firestore
 
 class FirestoreRepository(
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance(),
@@ -127,10 +129,17 @@ class FirestoreRepository(
     }
 
     suspend fun clearCart(uid: String) {
-        val cartRef = firestore.collection("cart").document(uid).collection("items")
+        val cartRef = Firebase.firestore
+            .collection("carts")
+            .document(uid)
+            .collection("items")
+
         val snapshot = cartRef.get().await()
-        snapshot.documents.forEach { it.reference.delete().await() }
+        for (doc in snapshot.documents) {
+            doc.reference.delete()
+        }
     }
+
 
     //Orders
     suspend fun submitOrder(uid: String, items: List<CartItem>) {

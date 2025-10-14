@@ -13,42 +13,24 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.fairthread.model.CartItem
+import com.example.fairthread.ui.components.FairThreadScaffold
 import com.example.fairthread.viewmodel.CartViewModel
 
 @Composable
 fun CartScreen(uid: String, navController: NavHostController, viewModel: CartViewModel = viewModel()) {
     val cartItems by viewModel.cartItems.collectAsState()
+    var showDialog by remember { mutableStateOf(false) }
+    var itemToRemove by remember { mutableStateOf<CartItem?>(null) }
 
     LaunchedEffect(uid) {
         viewModel.loadCart(uid)
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Your Cart") },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                }
-            )
-        },
-        drawerContent = {
-            Text("FairThread", style = MaterialTheme.typography.h6, modifier = Modifier.padding(16.dp))
-            Divider()
-            DrawerItem("Home") { navController.navigate("home") }
-            DrawerItem("Stores") { navController.navigate("stores") }
-            DrawerItem("Cart") { navController.navigate("cart") }
-            DrawerItem("Orders") { navController.navigate("orders") }
-            DrawerItem("Settings") { navController.navigate("settings") }
-        }
-    ) { paddingValues ->
+    FairThreadScaffold(navController, title = "Your Cart") { paddingValues ->
         Box(modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
-            .padding(24.dp))
-        {
+            .padding(24.dp)) {
             Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -75,7 +57,10 @@ fun CartScreen(uid: String, navController: NavHostController, viewModel: CartVie
                                             modifier = Modifier.width(100.dp)
                                         )
 
-                                        TextButton(onClick = { viewModel.removeItem(uid, item.id) }) {
+                                        TextButton(onClick = {
+                                            itemToRemove = item
+                                            showDialog = true
+                                        }) {
                                             Text("Remove")
                                         }
                                     }
@@ -87,11 +72,32 @@ fun CartScreen(uid: String, navController: NavHostController, viewModel: CartVie
                     Spacer(modifier = Modifier.height(24.dp))
 
                     Button(onClick = {
-                        navController.navigate("checkout")
+                        navController.navigate("payment")
                     }, modifier = Modifier.fillMaxWidth()) {
-                        Text("Proceed to Checkout")
+                        Text("Proceed to Payment")
                     }
                 }
+            }
+
+            if (showDialog && itemToRemove != null) {
+                AlertDialog(
+                    onDismissRequest = { showDialog = false },
+                    title = { Text("Remove Item") },
+                    text = { Text("Are you sure you want to remove this item from your cart?") },
+                    confirmButton = {
+                        TextButton(onClick = {
+                            viewModel.removeItem(uid, itemToRemove!!.id)
+                            showDialog = false
+                        }) {
+                            Text("Yes")
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { showDialog = false }) {
+                            Text("Cancel")
+                        }
+                    }
+                )
             }
         }
     }

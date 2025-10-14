@@ -118,13 +118,14 @@ fun RegisterScreen(
                 Text(if (isValidating) "Validating..." else "Register")
             }
 
-            Button(
-                onClick = { viewModel.testManualEmailReputation() },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Run Email API Test")
-            }
-
+            /*
+                Button(
+                    onClick = { viewModel.testManualEmailReputation() },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Run Email API Test")
+                }
+            */
 
             Spacer(modifier = Modifier.height(12.dp))
 

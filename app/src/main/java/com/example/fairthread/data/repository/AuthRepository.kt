@@ -64,5 +64,4 @@ class AuthRepository(private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     fun logout() {
         FirebaseAuth.getInstance().signOut()
     }
-
 }

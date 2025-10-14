@@ -16,41 +16,15 @@ import androidx.navigation.NavController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.fairthread.ui.components.FairThreadBackground
+import com.example.fairthread.ui.components.FairThreadScaffold
 import com.example.fairthread.ui.preview.PreviewWrapper
 import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(navController: NavController) {
-    val scaffoldState = rememberScaffoldState()
-    var searchQuery by remember { mutableStateOf("") }
-    val coroutineScope = rememberCoroutineScope()
+    //var searchQuery by remember { mutableStateOf("") }
 
-    Scaffold(
-        scaffoldState = scaffoldState,
-        drawerContent = {
-            Text("FairThread", style = MaterialTheme.typography.h6, modifier = Modifier.padding(16.dp))
-            Divider()
-            DrawerItem("Home") { navController.navigate("home") }
-            DrawerItem("Stores") { navController.navigate("stores") }
-            DrawerItem("Cart") { navController.navigate("cart") }
-            DrawerItem("Orders") { navController.navigate("orders") }
-            DrawerItem("Settings") { navController.navigate("settings") }
-        },
-        topBar = {
-            TopAppBar(
-                title = { Text("FairThread") },
-                navigationIcon = {
-                    IconButton(onClick = {
-                        coroutineScope.launch {
-                            scaffoldState.drawerState.open()
-                        }
-                    }) {
-                        Icon(Icons.Filled.Menu, contentDescription = "Menu")
-                    }
-                }
-            )
-        }
-    ) {
+    FairThreadScaffold(navController, title = "FairThread") {
         FairThreadBackground {
             Column(
                 modifier = Modifier
@@ -58,6 +32,7 @@ fun HomeScreen(navController: NavController) {
                     .padding(24.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
+                /*
                 TextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
@@ -74,7 +49,7 @@ fun HomeScreen(navController: NavController) {
 
                 Button(onClick = { navController.navigate("catalogue") }, modifier = Modifier.fillMaxWidth()) {
                     Text("Browse Catalogue")
-                }
+                }*/
 
                 Button(onClick = { navController.navigate("stores") }, modifier = Modifier.fillMaxWidth()) {
                     Text("Explore Stores")
@@ -94,18 +69,6 @@ fun HomeScreen(navController: NavController) {
             }
         }
     }
-}
-
-@Composable
-fun DrawerItem(label: String, onClick: () -> Unit) {
-    Text(
-        text = label,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .clickable(onClick = onClick),
-        style = MaterialTheme.typography.body1
-    )
 }
 
 @Preview(showBackground = true)

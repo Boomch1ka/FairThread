@@ -15,6 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.fairthread.model.Store
+import com.example.fairthread.ui.components.FairThreadScaffold
 import com.example.fairthread.ui.preview.PreviewWrapper
 import com.example.fairthread.viewmodel.StoresViewModel
 import com.example.fairthread.ui.theme.FairThreadTheme
@@ -29,27 +30,7 @@ fun StoresScreen(navController: NavHostController, viewModel: StoresViewModel = 
         viewModel.loadStores()
     }
 
-    Scaffold(
-        drawerContent = {
-            Text("FairThread", style = MaterialTheme.typography.h6, modifier = Modifier.padding(16.dp))
-            Divider()
-            DrawerItem("Home") { navController.navigate("home") }
-            DrawerItem("Stores") { navController.navigate("stores") }
-            DrawerItem("Cart") { navController.navigate("cart") }
-            DrawerItem("Orders") { navController.navigate("orders") }
-            DrawerItem("Settings") { navController.navigate("settings") }
-        },
-        topBar = {
-            TopAppBar(
-                title = { Text("Stores") },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                }
-            )
-        }
-    ) { paddingValues ->
+    FairThreadScaffold(navController, title = "Stores") { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()

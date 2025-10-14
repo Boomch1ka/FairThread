@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.fairthread.ui.components.FairThreadScaffold
 import com.example.fairthread.viewmodel.OrderViewModel
 
 @Composable
@@ -21,27 +22,7 @@ fun OrderScreen(uid: String, navController: NavHostController, viewModel: OrderV
         viewModel.loadOrders(uid)
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("My Orders", style = MaterialTheme.typography.h5) },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                }
-            )
-        },
-        drawerContent = {
-            Text("Navigation", style = MaterialTheme.typography.h6, modifier = Modifier.padding(16.dp))
-            Divider()
-            DrawerItem("Home") { navController.navigate("home") }
-            DrawerItem("Stores") { navController.navigate("stores") }
-            DrawerItem("Cart") { navController.navigate("cart") }
-            DrawerItem("Orders") { navController.navigate("orders") }
-            DrawerItem("Settings") { navController.navigate("settings") }
-        }
-    ) { paddingValues ->
+    FairThreadScaffold(navController, title = "My Orders") { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()

@@ -87,6 +87,9 @@ fun NavGraph(
             ProductDetailsScreen(productId = productId, navController = navController)
         }
 
+        composable("payment") {
+            PaymentScreen(navController = navController, uid = uid)
+        }
 
 
         // 📬 Inbox (Gmail API) — Optional

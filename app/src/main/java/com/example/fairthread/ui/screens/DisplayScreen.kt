@@ -19,6 +19,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.fairthread.ui.components.FairThreadBackground
+import com.example.fairthread.ui.components.FairThreadScaffold
 import com.example.fairthread.ui.theme.ButtonColor
 import com.example.fairthread.ui.theme.ButtonTextColor
 import com.example.fairthread.viewmodel.DisplayViewModel
@@ -33,27 +34,7 @@ fun DisplayScreen(storeId: String, category: String, navController: NavHostContr
         viewModel.loadProducts(storeId, category)
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Category: ${category.capitalize()}") },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                }
-            )
-        },
-        drawerContent = {
-            Text("FairThread", style = MaterialTheme.typography.h6, modifier = Modifier.padding(16.dp))
-            Divider()
-            DrawerItem("Home") { navController.navigate("home") }
-            DrawerItem("Stores") { navController.navigate("stores") }
-            DrawerItem("Cart") { navController.navigate("cart") }
-            DrawerItem("Orders") { navController.navigate("orders") }
-            DrawerItem("Settings") { navController.navigate("settings") }
-        }
-    ) { paddingValues ->
+    FairThreadScaffold(navController, title = "Category: ${category.capitalize()}") { paddingValues ->
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)

@@ -2,20 +2,14 @@ package com.example.fairthread.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.example.fairthread.model.Product
-import com.example.fairthread.ui.preview.PreviewWrapper
-import com.example.fairthread.ui.theme.FairThreadTheme
 import com.example.fairthread.viewmodel.ProductViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProductDetailsScreen(
@@ -27,53 +21,51 @@ fun ProductDetailsScreen(
     val isLoading by viewModel.isLoading.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
 
+    val scaffoldState = rememberScaffoldState()
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(productId) {
         viewModel.loadProduct(productId)
     }
 
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(
-                title = { Text(product?.name ?: "Product Details") },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                }
-            )
-        },
-        drawerContent = {
-            Text("FairThread", style = MaterialTheme.typography.h6, modifier = Modifier.padding(16.dp))
-            Divider()
-            DrawerItem("Home") { navController.navigate("home") }
-            DrawerItem("Stores") { navController.navigate("stores") }
-            DrawerItem("Cart") { navController.navigate("cart") }
-            DrawerItem("Orders") { navController.navigate("orders") }
-            DrawerItem("Settings") { navController.navigate("settings") }
+            TopAppBar(title = { Text(product?.name ?: "Product Details") })
         }
-    ) { paddingValues ->
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)
-            .padding(24.dp)) {
+    ) { padding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(24.dp)
+        ) {
             when {
                 isLoading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                errorMessage != null -> Text("Error: $errorMessage", color = MaterialTheme.colors.error)
+                errorMessage != null -> Text(
+                    "Error: $errorMessage",
+                    color = MaterialTheme.colors.error
+                )
+
                 product != null -> {
                     Column {
                         Text(product!!.name, style = MaterialTheme.typography.h5)
                         Spacer(modifier = Modifier.height(8.dp))
                         Text("R${product!!.price}", style = MaterialTheme.typography.body1)
                         Spacer(modifier = Modifier.height(16.dp))
-                        Button(onClick = { viewModel.addToCart(product!!) }) {
+                        Button(onClick = {
+                            viewModel.addToCart(product!!)
+                            coroutineScope.launch {
+                                scaffoldState.snackbarHostState.showSnackbar("Added to cart")
+                            }
+                        }) {
                             Text("Add to Cart")
                         }
                     }
                 }
+
                 else -> Text("Product not found", color = MaterialTheme.colors.error)
             }
-
         }
     }
 }

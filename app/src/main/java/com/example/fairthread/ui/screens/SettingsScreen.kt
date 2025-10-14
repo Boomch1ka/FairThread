@@ -1,10 +1,12 @@
 package com.example.fairthread.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,6 +20,7 @@ import com.example.fairthread.ui.theme.ButtonTextColor
 import com.example.fairthread.ui.theme.FairThreadTheme
 import com.example.fairthread.viewmodel.AuthViewModel
 import com.example.fairthread.viewmodel.SettingsViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 
 @Preview(showBackground = true)
@@ -43,6 +46,9 @@ fun SettingsScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var saveMessage by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
+    val settingsViewModel: SettingsViewModel = viewModel()
 
     LaunchedEffect(uid) {
         settingsViewModel.loadSettings(uid)
@@ -122,6 +128,21 @@ fun SettingsScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Log Out")
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Button(onClick = {
+                settingsViewModel.deleteUserAccount(uid) { success ->
+                    if (success) {
+                        Toast.makeText(context, "Account deleted successfully", Toast.LENGTH_SHORT).show()
+                        navController.navigate("login")
+                    } else {
+                        Toast.makeText(context, "Failed to delete account", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }) {
+                Text("Delete My Account")
             }
 
             Spacer(modifier = Modifier.height(12.dp))
