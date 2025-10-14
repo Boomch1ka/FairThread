@@ -47,6 +47,15 @@ fun StoreScreen(storeId: String, navController: NavHostController, viewModel: St
                     }
                 }
             )
+        },
+        drawerContent = {
+            Text("FairThread", style = MaterialTheme.typography.h6, modifier = Modifier.padding(16.dp))
+            Divider()
+            DrawerItem("Home") { navController.navigate("home") }
+            DrawerItem("Stores") { navController.navigate("stores") }
+            DrawerItem("Cart") { navController.navigate("cart") }
+            DrawerItem("Orders") { navController.navigate("orders") }
+            DrawerItem("Settings") { navController.navigate("settings") }
         }
     ) { paddingValues ->
         Column(
