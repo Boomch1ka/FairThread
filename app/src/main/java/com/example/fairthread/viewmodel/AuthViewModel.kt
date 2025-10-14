@@ -23,18 +23,16 @@ class AuthViewModel(private val repo: AuthRepository = AuthRepository()) : ViewM
         }
     }
 
-
-    fun testManualEmailValidation() {
+    fun testManualEmailReputation() {
         viewModelScope.launch {
             try {
-                val url = "https://emailvalidation.abstractapi.com/v1/?api_key=050772f4799540208d369de7afe782a6&email=test@example.com"
-                val result = withContext(Dispatchers.IO) {
-                    URL(url).readText()
+                val url = "https://emailreputation.abstractapi.com/v1/?api_key=050772f4799540208d369de7afe782a6&email=test@example.com"
+                val result = withContext(Dispatchers.IO) { URL(url).readText()
                 }
-                Log.d("EmailValidation", "Manual response: $result")
-                Log.d("EmailValidation", "Button clicked")
+                Log.d("EmailReputation", "Manual response: $result")
+                Log.d("EmailReputation", "Button clicked")
             } catch (e: Exception) {
-                Log.e("EmailValidation", "Manual call failed: ${e.message}")
+                Log.e("EmailReputation", "Manual call failed: ${e.message}")
             }
         }
     }
@@ -42,17 +40,14 @@ class AuthViewModel(private val repo: AuthRepository = AuthRepository()) : ViewM
     fun validateEmailBeforeRegister(email: String, onResult: (Boolean, String?) -> Unit) {
         viewModelScope.launch {
             try {
-                val response = NetworkModule.emailApi.validateEmail("050772f4799540208d369de7afe782a6", email.trim())
+                val response = NetworkModule.emailApi.validateEmail("050772f4799540208d369de7afe782a6", email)
+                Log.d("EmailValidation", "Parsed response: $response")
 
-                val url = "https://emailvalidation.abstractapi.com/v1/?api_key=your_actual_api_key&email=test@example.com"
-                Log.d("EmailValidation", "Manual URL: $url")
-                //Log.d("EmailValidation", "Quality score: ${response.quality_score}")
-
-                val isValidFormat = response.is_valid_format.value
-                val isSmtpValid = response.is_smtp_valid == true
-                val isDisposable = response.is_disposable_email == false
-                val isRoleEmail = response.is_role_email == false
-                val qualityScore = response.quality_score?.toDoubleOrNull() ?: 0.0
+                val isValidFormat = response.email_deliverability?.is_format_valid == true
+                val isSmtpValid = response.email_deliverability?.is_smtp_valid == true
+                val isDisposable = response.email_quality?.is_disposable == false
+                val isRoleEmail = response.email_quality?.is_role == false
+                val qualityScore = response.email_quality?.score?.toDoubleOrNull() ?: 0.0
 
                 val isHighQuality = qualityScore >= 0.7
 

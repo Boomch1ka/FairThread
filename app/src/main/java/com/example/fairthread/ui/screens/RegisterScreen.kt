@@ -29,10 +29,6 @@ fun RegisterScreen(
     var confirmPassword by remember { mutableStateOf("") }
     var isValidating by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        viewModel.testManualEmailValidation()
-    }
-
      LaunchedEffect(authState) {
         authState?.onSuccess {
             navController.navigate("login") {
@@ -123,7 +119,7 @@ fun RegisterScreen(
             }
 
             Button(
-                onClick = { viewModel.testManualEmailValidation() },
+                onClick = { viewModel.testManualEmailReputation() },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Run Email API Test")
