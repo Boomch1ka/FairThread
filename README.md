@@ -19,7 +19,7 @@ Prevents empty or invalid email formats and weak passwords
 Integration ready for an external email validation API
 
 External API Integration
-Email verification via a third-party Email Validation API (to confirm real/active addresses before Firebase sign-up)
+Email verification using Abstract API, a third-party Email Validation API (to confirm real/active addresses before Firebase sign-up)
 
 Jetpack Compose Navigation
 Navigation handled through a NavGraph using a NavController
