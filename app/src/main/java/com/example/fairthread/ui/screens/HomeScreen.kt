@@ -33,19 +33,7 @@ fun HomeScreen(navController: NavController) {
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
                 /*
-                TextField(
-                    value = searchQuery,
-                    onValueChange = { searchQuery = it },
-                    placeholder = { Text("Search Goods / Merch / Services") },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = MaterialTheme.colors.surface
-                    ),
-                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
-                    keyboardActions = KeyboardActions(onSearch = {
-                        // Trigger search logic
-                    })
-                )
+
 
                 Button(onClick = { navController.navigate("catalogue") }, modifier = Modifier.fillMaxWidth()) {
                     Text("Browse Catalogue")
