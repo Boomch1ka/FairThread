@@ -1,0 +1,9 @@
+toml
+# In gradle/libs.versions.toml
+
+[versions]
+# Change this line from "8.13" or another version to "8.12.0"
+agp = "8.12.0"
+kotlin = "1.9.22" # Example, no need to change this unless required
+# ... other versions
+    

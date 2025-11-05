@@ -7,23 +7,22 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.fairthread.R
 import com.example.fairthread.ui.components.FairThreadBackground
 import com.example.fairthread.ui.theme.ButtonColor
 import com.example.fairthread.ui.theme.ButtonTextColor
 import com.example.fairthread.ui.theme.WhiteText
 import com.example.fairthread.viewmodel.AuthViewModel
-import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.logging.Log
-
 
 @Composable
-fun LoginScreen(navController: NavController, viewModel: AuthViewModel = viewModel()
+fun LoginScreen(
+    navController: NavController, viewModel: AuthViewModel = viewModel()
 ) {
-
     val context = LocalContext.current
     val authState by viewModel.authState.collectAsState()
     var email by remember { mutableStateOf("") }
@@ -32,10 +31,11 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel = viewMod
     LaunchedEffect(authState) {
         authState?.onSuccess {
             navController.navigate("home") {
-            popUpTo("login") { inclusive = true }
-        }
-    }?.onFailure {
-            Toast.makeText(context, it.message ?: "Login failed", Toast.LENGTH_SHORT).show()
+                popUpTo("login") { inclusive = true }
+            }
+        }?.onFailure {
+            val message = it.message ?: context.getString(R.string.login_failed)
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -48,8 +48,8 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel = viewMod
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Login",
-                fontSize = 24.sp,
+                text = stringResource(R.string.login),
+                style = MaterialTheme.typography.h4,
                 color = MaterialTheme.colors.onSurface
             )
 
@@ -58,7 +58,7 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel = viewMod
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Email") },
+                label = { Text(stringResource(R.string.email)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -67,7 +67,7 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel = viewMod
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password") },
+                label = { Text(stringResource(R.string.password)) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -79,21 +79,20 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel = viewMod
                 colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Login", color = ButtonTextColor)
+                Text(stringResource(R.string.login), color = ButtonTextColor)
             }
 
             Spacer(modifier = Modifier.height(6.dp))
 
             TextButton(onClick = { navController.navigate("forgot") }) {
-                Text("Forgot Password?")
+                Text(stringResource(R.string.forgot_password))
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             TextButton(onClick = { navController.navigate("register") }) {
-                Text("Don't have an Account? Register!", color = WhiteText)
+                Text(stringResource(R.string.dont_have_account), color = WhiteText)
             }
         }
-
     }
 }

@@ -2,11 +2,8 @@ package com.example.fairthread.ui.screens
 
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -14,18 +11,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.fairthread.ui.components.FairThreadBackground
+import com.example.fairthread.R
 import com.example.fairthread.ui.components.FairThreadScaffold
 import com.example.fairthread.ui.theme.ButtonColor
 import com.example.fairthread.ui.theme.ButtonTextColor
 import com.example.fairthread.viewmodel.CartViewModel
 import com.example.fairthread.viewmodel.OrderViewModel
-
 
 @Composable
 fun PaymentScreen(
@@ -41,7 +36,7 @@ fun PaymentScreen(
         cartViewModel.loadCart(uid)
     }
 
-    FairThreadScaffold(navController, title = "Payment Details") { paddingValues ->
+    FairThreadScaffold(navController, title = stringResource(R.string.payment_details)) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -55,17 +50,12 @@ fun PaymentScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Choose Payment Method",
-                    fontSize = 24.sp,
+                    text = stringResource(R.string.choose_payment_method),
+                    style = MaterialTheme.typography.h5,
                     color = MaterialTheme.colors.onSurface
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
-                // PaymentOption("Visa", R.drawable.ic_visa)
-                Spacer(modifier = Modifier.height(16.dp))
-                // PaymentOption("MasterCard", R.drawable.ic_mastercard)
-                Spacer(modifier = Modifier.height(16.dp))
-                // PaymentOption("PayPal", R.drawable.ic_paypal)
 
                 Spacer(modifier = Modifier.height(32.dp))
 
@@ -75,10 +65,7 @@ fun PaymentScreen(
                             // Simulate payment success
                             Log.d("Payment", "Demo payment processed for ${cartItems.size} items")
 
-
-
-                            Toast.makeText(context, "Demo payment successful!", Toast.LENGTH_SHORT).show()
-
+                            Toast.makeText(context, context.getString(R.string.demo_payment_successful), Toast.LENGTH_SHORT).show()
 
                             // Place order and clear cart
                             orderViewModel.placeOrder(uid, cartItems)
@@ -94,7 +81,7 @@ fun PaymentScreen(
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Confirm Payment")
+                    Text(stringResource(R.string.confirm_payment))
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -104,7 +91,7 @@ fun PaymentScreen(
                     colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Return Home", color = ButtonTextColor)
+                    Text(stringResource(R.string.return_home), color = ButtonTextColor)
                 }
             }
         }

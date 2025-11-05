@@ -1,0 +1,8 @@
+toml
+# In gradle/libs.versions.toml
+
+[plugins]
+# This line uses the 'agp' version defined above. No changes needed here.
+android-application = { id = "com.android.application", version.ref = "agp" }
+# ... other plugins
+    

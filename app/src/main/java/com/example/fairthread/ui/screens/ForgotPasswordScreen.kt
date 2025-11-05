@@ -7,14 +7,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import com.example.fairthread.R
 import com.example.fairthread.ui.components.FairThreadBackground
-import com.example.fairthread.ui.theme.ButtonColor
-import com.example.fairthread.ui.theme.ButtonTextColor
 import com.example.fairthread.viewmodel.AuthViewModel
 import kotlinx.coroutines.launch
 
@@ -31,11 +29,12 @@ fun ForgotPasswordScreen(
 
     LaunchedEffect(authState) {
         authState?.onSuccess {
-            Toast.makeText(context, "Reset link sent to $email", Toast.LENGTH_LONG).show()
+            val message = context.getString(R.string.reset_link_sent, email)
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             navController.popBackStack()
         }?.onFailure {
-            Toast.makeText(context, it.message ?: "Failed to send reset link", Toast.LENGTH_SHORT)
-                .show()
+            val message = it.message ?: context.getString(R.string.failed_to_send_reset_link)
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -47,14 +46,14 @@ fun ForgotPasswordScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Reset Password", style = MaterialTheme.typography.h4)
+            Text(stringResource(R.string.reset_password), style = MaterialTheme.typography.h4)
 
             Spacer(modifier = Modifier.height(24.dp))
 
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Email") },
+                label = { Text(stringResource(R.string.email)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -69,13 +68,13 @@ fun ForgotPasswordScreen(
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Send Reset Link")
+                Text(stringResource(R.string.send_reset_link))
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             TextButton(onClick = { navController.popBackStack() }) {
-                Text("Back to Login")
+                Text(stringResource(R.string.back_to_login))
             }
         }
     }

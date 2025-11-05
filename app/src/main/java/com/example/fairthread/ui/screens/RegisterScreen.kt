@@ -7,10 +7,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.fairthread.R
 import com.example.fairthread.ui.components.FairThreadBackground
 import com.example.fairthread.ui.theme.WhiteText
 import com.example.fairthread.viewmodel.AuthViewModel
@@ -29,16 +31,16 @@ fun RegisterScreen(
     var confirmPassword by remember { mutableStateOf("") }
     var isValidating by remember { mutableStateOf(false) }
 
-     LaunchedEffect(authState) {
+    LaunchedEffect(authState) {
         authState?.onSuccess {
             navController.navigate("login") {
                 popUpTo("register") { inclusive = true }
             }
         }?.onFailure {
-            Toast.makeText(context, it.message ?: "Registration failed", Toast.LENGTH_SHORT).show()
+            val message = it.message ?: context.getString(R.string.registration_failed)
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
     }
-
 
     FairThreadBackground {
         Column(
@@ -49,7 +51,7 @@ fun RegisterScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Register",
+                text = stringResource(R.string.register),
                 style = MaterialTheme.typography.h4,
                 color = MaterialTheme.colors.onSurface
             )
@@ -59,7 +61,7 @@ fun RegisterScreen(
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Email") },
+                label = { Text(stringResource(R.string.email)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -68,7 +70,7 @@ fun RegisterScreen(
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
-                label = { Text("Username") },
+                label = { Text(stringResource(R.string.username)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -77,7 +79,7 @@ fun RegisterScreen(
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password") },
+                label = { Text(stringResource(R.string.password)) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -87,7 +89,7 @@ fun RegisterScreen(
             OutlinedTextField(
                 value = confirmPassword,
                 onValueChange = { confirmPassword = it },
-                label = { Text("Confirm Password") },
+                label = { Text(stringResource(R.string.confirm_password)) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -97,7 +99,7 @@ fun RegisterScreen(
             Button(
                 onClick = {
                     if (password != confirmPassword) {
-                        Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.passwords_do_not_match), Toast.LENGTH_SHORT).show()
                         return@Button
                     }
 
@@ -105,7 +107,7 @@ fun RegisterScreen(
                     viewModel.validateEmailBeforeRegister(email.trim()) { isValid, error ->
                         if (!isValid) {
                             isValidating = false
-                            Toast.makeText(context, error ?: "Invalid email", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, error ?: context.getString(R.string.invalid_email), Toast.LENGTH_LONG).show()
                             return@validateEmailBeforeRegister
                         }
 
@@ -115,22 +117,13 @@ fun RegisterScreen(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !isValidating
             ) {
-                Text(if (isValidating) "Validating..." else "Register")
+                Text(if (isValidating) stringResource(R.string.validating) else stringResource(R.string.register))
             }
-
-            /*
-                Button(
-                    onClick = { viewModel.testManualEmailReputation() },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Run Email API Test")
-                }
-            */
 
             Spacer(modifier = Modifier.height(12.dp))
 
             TextButton(onClick = { navController.navigate("login") }) {
-                Text("Already have an account? Login", color = WhiteText)
+                Text(stringResource(R.string.already_have_account), color = WhiteText)
             }
         }
     }

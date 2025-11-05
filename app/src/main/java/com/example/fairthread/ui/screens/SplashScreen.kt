@@ -16,21 +16,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.fairthread.ui.components.FairThreadBackground
-import com.example.fairthread.ui.theme.ButtonColor
-import com.example.fairthread.ui.theme.ButtonTextColor
+import com.example.fairthread.R
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 
-
 @Composable
 fun SplashScreen(navController: NavController) {
-
-    val context = LocalContext.current
-    val scale = remember{ Animatable(0f) }
+    val scale = remember { Animatable(0f) }
 
     // Animate logo scale
     LaunchedEffect(Unit) {
@@ -64,14 +59,14 @@ fun SplashScreen(navController: NavController) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
                 imageVector = Icons.Default.ShoppingCart, // Replace with your logo
-                contentDescription = "FairThread Logo",
+                contentDescription = stringResource(R.string.fairthread_logo),
                 modifier = Modifier
                     .size(100.dp)
                     .scale(scale.value),
                 tint = Color.Black
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Text("FairThread", style = MaterialTheme.typography.h4)
+            Text(stringResource(R.string.app_name), style = MaterialTheme.typography.h4)
         }
     }
 }

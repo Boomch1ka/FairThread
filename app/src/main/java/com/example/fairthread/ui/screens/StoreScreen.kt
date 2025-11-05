@@ -5,29 +5,26 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.fairthread.R
 import com.example.fairthread.model.Product
 import com.example.fairthread.model.Store
 import com.example.fairthread.ui.components.FairThreadScaffold
 import com.example.fairthread.ui.preview.PreviewWrapper
-import com.example.fairthread.ui.theme.FairThreadTheme
 import com.example.fairthread.viewmodel.StoreViewModel
-
 
 @Composable
 fun StoreScreen(storeId: String, navController: NavHostController, viewModel: StoreViewModel = viewModel()) {
     val store by viewModel.store.collectAsState()
     val categories by viewModel.categories.collectAsState()
-    val groupedProducts by viewModel.groupedProducts.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
 
@@ -38,7 +35,7 @@ fun StoreScreen(storeId: String, navController: NavHostController, viewModel: St
         }
     }
 
-    FairThreadScaffold(navController, title = store?.name ?: "Store") { paddingValues ->
+    FairThreadScaffold(navController, title = store?.name ?: stringResource(R.string.store)) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -52,10 +49,10 @@ fun StoreScreen(storeId: String, navController: NavHostController, viewModel: St
                     }
                 }
                 errorMessage != null -> {
-                    Text("Error: $errorMessage", color = MaterialTheme.colors.error)
+                    Text("${stringResource(R.string.error)}: $errorMessage", color = MaterialTheme.colors.error)
                 }
                 else -> {
-                    Text("Categories", style = MaterialTheme.typography.h6)
+                    Text(stringResource(R.string.categories), style = MaterialTheme.typography.h6)
                     Spacer(modifier = Modifier.height(8.dp))
 
                     LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {

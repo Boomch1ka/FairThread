@@ -5,23 +5,17 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import com.example.fairthread.ui.components.FairThreadBackground
+import com.example.fairthread.R
 import com.example.fairthread.ui.components.FairThreadScaffold
-import com.example.fairthread.ui.theme.ButtonColor
-import com.example.fairthread.ui.theme.ButtonTextColor
 import com.example.fairthread.viewmodel.DisplayViewModel
 
 @Composable
@@ -34,7 +28,7 @@ fun DisplayScreen(storeId: String, category: String, navController: NavHostContr
         viewModel.loadProducts(storeId, category)
     }
 
-    FairThreadScaffold(navController, title = "Category: ${category.capitalize()}") { paddingValues ->
+    FairThreadScaffold(navController, title = "${stringResource(R.string.category)}: ${category.capitalize()}") { paddingValues ->
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
@@ -42,8 +36,8 @@ fun DisplayScreen(storeId: String, category: String, navController: NavHostContr
 
             when {
                 isLoading -> CircularProgressIndicator()
-                errorMessage != null -> Text("Error: $errorMessage", color = MaterialTheme.colors.error)
-                products.isEmpty() -> Text("No products found in this category.")
+                errorMessage != null -> Text("${stringResource(R.string.error)}: $errorMessage", color = MaterialTheme.colors.error)
+                products.isEmpty() -> Text(stringResource(R.string.no_products_found_in_category))
                 else -> {
                     LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         items(products) { product ->

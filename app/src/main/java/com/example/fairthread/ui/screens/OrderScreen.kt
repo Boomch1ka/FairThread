@@ -4,13 +4,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.fairthread.R
 import com.example.fairthread.ui.components.FairThreadScaffold
 import com.example.fairthread.viewmodel.OrderViewModel
 import java.text.SimpleDateFormat
@@ -24,7 +24,7 @@ fun OrderScreen(uid: String, navController: NavHostController, viewModel: OrderV
         viewModel.loadOrders(uid)
     }
 
-    FairThreadScaffold(navController, title = "My Orders") { paddingValues ->
+    FairThreadScaffold(navController, title = stringResource(R.string.my_orders)) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -35,7 +35,7 @@ fun OrderScreen(uid: String, navController: NavHostController, viewModel: OrderV
                 Spacer(modifier = Modifier.height(16.dp))
 
                 if (orders.isEmpty()) {
-                    Text("You haven't placed any orders yet.")
+                    Text(stringResource(R.string.no_orders_yet))
                 } else {
                     LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         items(orders) { order ->
@@ -44,7 +44,7 @@ fun OrderScreen(uid: String, navController: NavHostController, viewModel: OrderV
 
                             Card(modifier = Modifier.fillMaxWidth(), elevation = 4.dp) {
                                 Column(modifier = Modifier.padding(16.dp)) {
-                                    Text("Order ID: ${order.id}", style = MaterialTheme.typography.subtitle2)
+                                    Text("${stringResource(R.string.order_id)}: ${order.id}", style = MaterialTheme.typography.subtitle2)
                                     Spacer(modifier = Modifier.height(8.dp))
 
                                     order.items.forEach {
@@ -52,7 +52,7 @@ fun OrderScreen(uid: String, navController: NavHostController, viewModel: OrderV
                                     }
 
                                     Spacer(modifier = Modifier.height(8.dp))
-                                    Text("Total: R${"%.2f".format(total)}", style = MaterialTheme.typography.body1)
+                                    Text("${stringResource(R.string.total)}: R${"%.2f".format(total)}", style = MaterialTheme.typography.body1)
                                 }
                             }
                         }

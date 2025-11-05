@@ -8,15 +8,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.fairthread.R
 import com.example.fairthread.model.Category
 import com.example.fairthread.model.Product
 import com.example.fairthread.ui.preview.PreviewWrapper
-import com.example.fairthread.ui.theme.FairThreadTheme
 import com.example.fairthread.viewmodel.CatalogueViewModel
 
 @Composable
@@ -30,11 +31,11 @@ fun CatalogueScreen(navController: NavHostController, viewModel: CatalogueViewMo
     }
 
     Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
-        Text("🛍️ Catalogue", style = MaterialTheme.typography.h5)
+        Text(stringResource(R.string.catalogue), style = MaterialTheme.typography.h5)
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text("Categories", style = MaterialTheme.typography.subtitle1)
+        Text(stringResource(R.string.categories), style = MaterialTheme.typography.subtitle1)
         LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             items(categories) { category ->
                 Card(
@@ -51,14 +52,17 @@ fun CatalogueScreen(navController: NavHostController, viewModel: CatalogueViewMo
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Text("Products", style = MaterialTheme.typography.subtitle1)
+        Text(stringResource(R.string.products), style = MaterialTheme.typography.subtitle1)
 
         when {
             errorMessage != null -> {
-                Text("Error: ${errorMessage}", color = MaterialTheme.colors.error)
+                Text(
+                    stringResource(R.string.error) + ": " + errorMessage,
+                    color = MaterialTheme.colors.error
+                )
             }
             products.isEmpty() -> {
-                Text("No products found for this category.")
+                Text(stringResource(R.string.no_products_found))
             }
             else -> {
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {

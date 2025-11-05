@@ -1,0 +1,81 @@
+<resources>
+    <string name="app_name">FairThread</string>
+    <string name="navigation_drawer_open">Vula idrowa yokukhangela</string>
+    <string name="navigation_drawer_close">Vala idrowa yokukhangela</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Isihloko sokukhangela</string>
+    <string name="action_settings">Izicwangciso</string>
+    <string name="menu_home">Ikhaya</string>
+    <string name="menu_gallery">Igalari</string>
+    <string name="menu_slideshow">Umboniso wesilayidi</string>
+
+    <string name="catalogue">Ikhathalogu</string>
+    <string name="categories">Iindidi</string>
+    <string name="products">Iimveliso</string>
+    <string name="error">Impazamo</string>
+    <string name="no_products_found">Azikho iimveliso ezifunyenweyo kolu luhlu.</string>
+
+    <string name="your_cart">Inqola Yakho</string>
+    <string name="your_cart_is_empty">Inqola yakho ayinanto.</string>
+    <string name="qty">Isixa</string>
+    <string name="remove">Susa</string>
+    <string name="proceed_to_payment">Qhubeka uye kwintlawulo</string>
+    <string name="remove_item">Susa Into</string>
+    <string name="remove_item_confirm">Uqinisekile ufuna ukususa le nto kwinqola yakho?</string>
+    <string name="yes">Ewe</string>
+    <string name="cancel">Rhoxisa</string>
+
+    <string name="checkout">Phuma</string>
+    <string name="total">Itotali</string>
+    <string name="place_order">Faka iodolo</string>
+
+    <string name="category">Udidi</string>
+    <string name="no_products_found_in_category">Azikho iimveliso ezifunyenweyo kolu didi.</string>
+
+    <string name="reset_password">Cwangcisa kwakhona iphasiwedi</string>
+    <string name="email">I-imeyile</string>
+    <string name="send_reset_link">Thumela ikhonkco lokuseta kwakhona</string>
+    <string name="back_to_login">Buyela kungeno</string>
+    <string name="reset_link_sent">Ikhonkco lokuseta kwakhona lithunyelwe ku-%1$s</string>
+    <string name="failed_to_send_reset_link">Ayiphumelelanga ukuthumela ikhonkco lokuseta kwakhona</string>
+
+    <string name="explore_stores">Jonga iivenkile</string>
+    <string name="view_cart">Jonga Inqola</string>
+    <string name="my_orders">Iiodolo Zam</string>
+
+    <string name="login">Ngena</string>
+    <string name="password">Iphasiwedi</string>
+    <string name="forgot_password">Ulibele iphasiwedi?</string>
+    <string name="dont_have_account">Awunayo iakhawunti? Bhalisa!</string>
+    <string name="login_failed">Ukungena akuphumelelanga</string>
+
+    <string name="no_orders_yet">Awukafaki naziphi na iiodolo.</string>
+    <string name="order_id">ID yeodolo</string>
+
+    <string name="payment_details">Iinkcukacha zentlawulo</string>
+    <string name="choose_payment_method">Khetha Indlela yokuHlawula</string>
+    <string name="confirm_payment">Qinisekisa intlawulo</string>
+    <string name="return_home">Buyela Ekhaya</string>
+    <string name="demo_payment_successful">Intlawulo yedemo iphumelele!</string>
+
+    <string name="product_details">Iinkcukacha zemveliso</string>
+    <string name="add_to_cart">Yongeza kwinqola</string>
+    <string name="added_to_cart">Yongeziwe kwinqola</string>
+    <string name="product_not_found">Imveliso ayifunyanwanga</string>
+
+    <string name="register">Bhalisa</string>
+    <string name="username">Igama lomsebenzisi</string>
+    <string name="confirm_password">Qinisekisa iphasiwedi</string>
+    <string name="passwords_do_not_match">Amaphasiwedi awafani</string>
+    <string name="invalid_email">I-imeyile engeyiyo</string>
+    <string name="validating">Iqinisekisa...</string>
+    <string name="already_have_account">Sele unayo iakhawunti? Ngena</string>
+    <string name="registration_failed">Ubhaliso aluphumelelanga</string>
+
+    <string name="fairthread_logo">Ilogo yeFairThread</string>
+
+    <string name="store">Ivenkile</string>
+    <string name="stores">Iivenkile</string>
+    <string name="no_stores_available">Azikho iivenkile ezikhoyo.</string>
+</resources>

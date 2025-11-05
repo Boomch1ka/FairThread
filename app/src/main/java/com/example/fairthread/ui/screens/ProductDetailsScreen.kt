@@ -5,9 +5,12 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.fairthread.R
 import com.example.fairthread.viewmodel.ProductViewModel
 import kotlinx.coroutines.launch
 
@@ -23,6 +26,7 @@ fun ProductDetailsScreen(
 
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     LaunchedEffect(productId) {
         viewModel.loadProduct(productId)
@@ -31,7 +35,7 @@ fun ProductDetailsScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(title = { Text(product?.name ?: "Product Details") })
+            TopAppBar(title = { Text(product?.name ?: stringResource(R.string.product_details)) })
         }
     ) { padding ->
         Box(
@@ -43,7 +47,7 @@ fun ProductDetailsScreen(
             when {
                 isLoading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 errorMessage != null -> Text(
-                    "Error: $errorMessage",
+                    stringResource(R.string.error) + ": " + errorMessage,
                     color = MaterialTheme.colors.error
                 )
 
@@ -56,15 +60,15 @@ fun ProductDetailsScreen(
                         Button(onClick = {
                             viewModel.addToCart(product!!)
                             coroutineScope.launch {
-                                scaffoldState.snackbarHostState.showSnackbar("Added to cart")
+                                scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.added_to_cart))
                             }
                         }) {
-                            Text("Add to Cart")
+                            Text(stringResource(R.string.add_to_cart))
                         }
                     }
                 }
 
-                else -> Text("Product not found", color = MaterialTheme.colors.error)
+                else -> Text(stringResource(R.string.product_not_found), color = MaterialTheme.colors.error)
             }
         }
     }

@@ -9,9 +9,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.fairthread.R
 import com.example.fairthread.model.CartItem
 import com.example.fairthread.ui.components.FairThreadScaffold
 import com.example.fairthread.viewmodel.CartViewModel
@@ -26,7 +28,7 @@ fun CartScreen(uid: String, navController: NavHostController, viewModel: CartVie
         viewModel.loadCart(uid)
     }
 
-    FairThreadScaffold(navController, title = "Your Cart") { paddingValues ->
+    FairThreadScaffold(navController, title = stringResource(R.string.your_cart)) { paddingValues ->
         Box(modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
@@ -35,7 +37,7 @@ fun CartScreen(uid: String, navController: NavHostController, viewModel: CartVie
                 Spacer(modifier = Modifier.height(16.dp))
 
                 if (cartItems.isEmpty()) {
-                    Text("Your cart is empty.")
+                    Text(stringResource(R.string.your_cart_is_empty))
                 } else {
                     LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         items(cartItems) { item: CartItem ->
@@ -53,7 +55,7 @@ fun CartScreen(uid: String, navController: NavHostController, viewModel: CartVie
                                                 quantity = it.toIntOrNull() ?: item.quantity
                                                 viewModel.updateQuantity(uid, item.id, quantity)
                                             },
-                                            label = { Text("Qty") },
+                                            label = { Text(stringResource(R.string.qty)) },
                                             modifier = Modifier.width(100.dp)
                                         )
 
@@ -61,7 +63,7 @@ fun CartScreen(uid: String, navController: NavHostController, viewModel: CartVie
                                             itemToRemove = item
                                             showDialog = true
                                         }) {
-                                            Text("Remove")
+                                            Text(stringResource(R.string.remove))
                                         }
                                     }
                                 }
@@ -74,7 +76,7 @@ fun CartScreen(uid: String, navController: NavHostController, viewModel: CartVie
                     Button(onClick = {
                         navController.navigate("payment")
                     }, modifier = Modifier.fillMaxWidth()) {
-                        Text("Proceed to Payment")
+                        Text(stringResource(R.string.proceed_to_payment))
                     }
                 }
             }
@@ -82,19 +84,19 @@ fun CartScreen(uid: String, navController: NavHostController, viewModel: CartVie
             if (showDialog && itemToRemove != null) {
                 AlertDialog(
                     onDismissRequest = { showDialog = false },
-                    title = { Text("Remove Item") },
-                    text = { Text("Are you sure you want to remove this item from your cart?") },
+                    title = { Text(stringResource(R.string.remove_item)) },
+                    text = { Text(stringResource(R.string.remove_item_confirm)) },
                     confirmButton = {
                         TextButton(onClick = {
                             viewModel.removeItem(uid, itemToRemove!!.id)
                             showDialog = false
                         }) {
-                            Text("Yes")
+                            Text(stringResource(R.string.yes))
                         }
                     },
                     dismissButton = {
                         TextButton(onClick = { showDialog = false }) {
-                            Text("Cancel")
+                            Text(stringResource(R.string.cancel))
                         }
                     }
                 )

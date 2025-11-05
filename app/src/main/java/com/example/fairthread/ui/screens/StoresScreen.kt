@@ -5,20 +5,19 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.fairthread.R
 import com.example.fairthread.model.Store
 import com.example.fairthread.ui.components.FairThreadScaffold
 import com.example.fairthread.ui.preview.PreviewWrapper
 import com.example.fairthread.viewmodel.StoresViewModel
-import com.example.fairthread.ui.theme.FairThreadTheme
 
 @Composable
 fun StoresScreen(navController: NavHostController, viewModel: StoresViewModel = viewModel()) {
@@ -30,7 +29,7 @@ fun StoresScreen(navController: NavHostController, viewModel: StoresViewModel = 
         viewModel.loadStores()
     }
 
-    FairThreadScaffold(navController, title = "Stores") { paddingValues ->
+    FairThreadScaffold(navController, title = stringResource(R.string.stores)) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -44,11 +43,11 @@ fun StoresScreen(navController: NavHostController, viewModel: StoresViewModel = 
                     }
 
                     errorMessage != null -> {
-                        Text("Error: $errorMessage", color = MaterialTheme.colors.error)
+                        Text("${stringResource(R.string.error)}: $errorMessage", color = MaterialTheme.colors.error)
                     }
 
                     stores.isEmpty() -> {
-                        Text("No stores available.")
+                        Text(stringResource(R.string.no_stores_available))
                     }
 
                     else -> {

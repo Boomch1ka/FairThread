@@ -10,4 +10,73 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+
+    <string name="catalogue">Catalogue</string>
+    <string name="categories">Categories</string>
+    <string name="products">Products</string>
+    <string name="error">Error</string>
+    <string name="no_products_found">No products found for this category.</string>
+
+    <string name="your_cart">Your Cart</string>
+    <string name="your_cart_is_empty">Your cart is empty.</string>
+    <string name="qty">Qty</string>
+    <string name="remove">Remove</string>
+    <string name="proceed_to_payment">Proceed to Payment</string>
+    <string name="remove_item">Remove Item</string>
+    <string name="remove_item_confirm">Are you sure you want to remove this item from your cart?</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="checkout">Checkout</string>
+    <string name="total">Total</string>
+    <string name="place_order">Place Order</string>
+
+    <string name="category">Category</string>
+    <string name="no_products_found_in_category">No products found in this category.</string>
+
+    <string name="reset_password">Reset Password</string>
+    <string name="email">Email</string>
+    <string name="send_reset_link">Send Reset Link</string>
+    <string name="back_to_login">Back to Login</string>
+    <string name="reset_link_sent">Reset link sent to %1$s</string>
+    <string name="failed_to_send_reset_link">Failed to send reset link</string>
+
+    <string name="explore_stores">Explore Stores</string>
+    <string name="view_cart">View Cart</string>
+    <string name="my_orders">My Orders</string>
+
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="dont_have_account">Don't have an Account? Register!</string>
+    <string name="login_failed">Login failed</string>
+
+    <string name="no_orders_yet">You haven't placed any orders yet.</string>
+    <string name="order_id">Order ID</string>
+
+    <string name="payment_details">Payment Details</string>
+    <string name="choose_payment_method">Choose Payment Method</string>
+    <string name="confirm_payment">Confirm Payment</string>
+    <string name="return_home">Return Home</string>
+    <string name="demo_payment_successful">Demo payment successful!</string>
+
+    <string name="product_details">Product Details</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="added_to_cart">Added to cart</string>
+    <string name="product_not_found">Product not found</string>
+
+    <string name="register">Register</string>
+    <string name="username">Username</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="validating">Validating...</string>
+    <string name="already_have_account">Already have an account? Login</string>
+    <string name="registration_failed">Registration failed</string>
+
+    <string name="fairthread_logo">FairThread Logo</string>
+
+    <string name="store">Store</string>
+    <string name="stores">Stores</string>
+    <string name="no_stores_available">No stores available.</string>
 </resources>

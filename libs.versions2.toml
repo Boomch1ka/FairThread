@@ -1,0 +1,11 @@
+toml
+[versions]
+agp = "8.12.0"
+googleGms = "4.4.1" # Using a recent, compatible version
+# ...
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+google-gms-services = { id = "com.google.gms.google-services", version.ref = "googleGms" }
+# ...
+    
