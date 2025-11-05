@@ -1,5 +1,6 @@
 package com.example.fairthread.ui.screens
 
+import android.app.Activity
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Column
@@ -13,37 +14,44 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import androidx.navigation.NavController
+import com.example.fairthread.R
 import com.example.fairthread.ui.components.FairThreadScaffold
 import java.util.Locale
 
 @Composable
 fun SettingsScreen(navController: NavController) {
     val context = LocalContext.current
-    val languages = listOf("English", "Afrikaans", "Xhosa")
+    val languages = mapOf(
+        "en" to R.string.english,
+        "af" to R.string.afrikaans,
+        "xh" to R.string.xhosa
+    )
     val currentLocale = getCurrentLocale(context)
     val (selectedLanguage, setSelectedLanguage) = remember { mutableStateOf(currentLocale.language) }
 
-    FairThreadScaffold(navController, title = "Settings") {
+    FairThreadScaffold(navController, title = stringResource(R.string.action_settings)) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Select Language", modifier = Modifier.padding(bottom = 16.dp))
-            languages.forEach { language ->
+            Text(stringResource(R.string.select_language), modifier = Modifier.padding(bottom = 16.dp))
+            languages.forEach { (languageCode, stringId) ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp)
                 ) {
                     RadioButton(
-                        selected = selectedLanguage == language.substring(0, 2).toLowerCase(Locale.ROOT),
+                        selected = selectedLanguage == languageCode,
                         onClick = { 
-                            val newLanguageCode = language.substring(0, 2).toLowerCase(Locale.ROOT)
-                            setSelectedLanguage(newLanguageCode)
-                            setLocale(context, newLanguageCode)
+                            setSelectedLanguage(languageCode)
+                            setLocale(context, languageCode)
+                            // Force recomposition
+                            (context as? Activity)?.recreate()
                         }
                     )
-                    Text(language, modifier = Modifier.padding(start = 8.dp))
+                    Text(stringResource(stringId), modifier = Modifier.padding(start = 8.dp))
                 }
             }
         }

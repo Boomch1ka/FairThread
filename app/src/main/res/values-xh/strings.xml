@@ -6,6 +6,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Isihloko sokukhangela</string>
     <string name="action_settings">Izicwangciso</string>
+
     <string name="menu_home">Ikhaya</string>
     <string name="menu_gallery">Igalari</string>
     <string name="menu_slideshow">Umboniso wesilayidi</string>
@@ -78,4 +79,9 @@
     <string name="store">Ivenkile</string>
     <string name="stores">Iivenkile</string>
     <string name="no_stores_available">Azikho iivenkile ezikhoyo.</string>
+
+    <string name="select_language">Khetha Ulwimi</string>
+    <string name="english">IsiNgesi</string>
+    <string name="afrikaans">IsiBhulu</string>
+    <string name="xhosa">isiXhosa</string>
 </resources>

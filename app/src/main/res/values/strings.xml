@@ -79,4 +79,9 @@
     <string name="store">Store</string>
     <string name="stores">Stores</string>
     <string name="no_stores_available">No stores available.</string>
+
+    <string name="select_language">Select Language</string>
+    <string name="english">English</string>
+    <string name="afrikaans">Afrikaans</string>
+    <string name="xhosa">Xhosa</string>
 </resources>

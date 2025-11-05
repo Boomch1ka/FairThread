@@ -6,6 +6,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigasie-opskrif</string>
     <string name="action_settings">Instellings</string>
+
     <string name="menu_home">Tuis</string>
     <string name="menu_gallery">Galery</string>
     <string name="menu_slideshow">Skyfievertoning</string>
@@ -78,4 +79,9 @@
     <string name="store">Winkel</string>
     <string name="stores">Winkels</string>
     <string name="no_stores_available">Geen winkels beskikbaar nie.</string>
+
+    <string name="select_language">Kies Taal</string>
+    <string name="english">Engels</string>
+    <string name="afrikaans">Afrikaans</string>
+    <string name="xhosa">Xhosa</string>
 </resources>
