@@ -2,7 +2,7 @@ package com.example.fairthread.ui.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,9 +14,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.fairthread.R
 import com.example.fairthread.ui.components.FairThreadBackground
-import com.example.fairthread.ui.theme.WhiteText
 import com.example.fairthread.viewmodel.AuthViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
     navController: NavController,
@@ -52,8 +52,8 @@ fun RegisterScreen(
         ) {
             Text(
                 text = stringResource(R.string.register),
-                style = MaterialTheme.typography.h4,
-                color = MaterialTheme.colors.onSurface
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -123,7 +123,7 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(12.dp))
 
             TextButton(onClick = { navController.navigate("login") }) {
-                Text(stringResource(R.string.already_have_account), color = WhiteText)
+                Text(stringResource(R.string.already_have_account))
             }
         }
     }

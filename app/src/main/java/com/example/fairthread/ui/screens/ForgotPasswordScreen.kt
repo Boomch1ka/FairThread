@@ -2,7 +2,7 @@ package com.example.fairthread.ui.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,6 +16,7 @@ import com.example.fairthread.ui.components.FairThreadBackground
 import com.example.fairthread.viewmodel.AuthViewModel
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ForgotPasswordScreen(
     navController: NavHostController,
@@ -46,7 +47,7 @@ fun ForgotPasswordScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(stringResource(R.string.reset_password), style = MaterialTheme.typography.h4)
+            Text(stringResource(R.string.reset_password), style = MaterialTheme.typography.headlineSmall)
 
             Spacer(modifier = Modifier.height(24.dp))
 

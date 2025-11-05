@@ -4,7 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +21,7 @@ import com.example.fairthread.ui.components.FairThreadScaffold
 import com.example.fairthread.ui.preview.PreviewWrapper
 import com.example.fairthread.viewmodel.StoreViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StoreScreen(storeId: String, navController: NavHostController, viewModel: StoreViewModel = viewModel()) {
     val store by viewModel.store.collectAsState()
@@ -49,10 +50,10 @@ fun StoreScreen(storeId: String, navController: NavHostController, viewModel: St
                     }
                 }
                 errorMessage != null -> {
-                    Text("${stringResource(R.string.error)}: $errorMessage", color = MaterialTheme.colors.error)
+                    Text("${stringResource(R.string.error)}: $errorMessage", color = MaterialTheme.colorScheme.error)
                 }
                 else -> {
-                    Text(stringResource(R.string.categories), style = MaterialTheme.typography.h6)
+                    Text(stringResource(R.string.categories), style = MaterialTheme.typography.headlineSmall)
                     Spacer(modifier = Modifier.height(8.dp))
 
                     LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -62,11 +63,10 @@ fun StoreScreen(storeId: String, navController: NavHostController, viewModel: St
                                     .fillMaxWidth()
                                     .clickable {
                                         navController.navigate("store/${storeId}/category/${category}")
-                                    },
-                                elevation = 4.dp
+                                    }
                             ) {
                                 Column(modifier = Modifier.padding(16.dp)) {
-                                    Text(category.capitalize(), style = MaterialTheme.typography.body1)
+                                    Text(category.capitalize(), style = MaterialTheme.typography.bodyLarge)
                                 }
                             }
                         }

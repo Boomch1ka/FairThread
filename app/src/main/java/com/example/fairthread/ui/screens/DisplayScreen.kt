@@ -4,7 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -18,6 +18,7 @@ import com.example.fairthread.R
 import com.example.fairthread.ui.components.FairThreadScaffold
 import com.example.fairthread.viewmodel.DisplayViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DisplayScreen(storeId: String, category: String, navController: NavHostController, viewModel: DisplayViewModel = viewModel()) {
     val products by viewModel.products.collectAsState()
@@ -36,7 +37,7 @@ fun DisplayScreen(storeId: String, category: String, navController: NavHostContr
 
             when {
                 isLoading -> CircularProgressIndicator()
-                errorMessage != null -> Text("${stringResource(R.string.error)}: $errorMessage", color = MaterialTheme.colors.error)
+                errorMessage != null -> Text("${stringResource(R.string.error)}: $errorMessage", color = MaterialTheme.colorScheme.error)
                 products.isEmpty() -> Text(stringResource(R.string.no_products_found_in_category))
                 else -> {
                     LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -44,12 +45,11 @@ fun DisplayScreen(storeId: String, category: String, navController: NavHostContr
                             Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .clickable { navController.navigate("product/${product.id}") },
-                                elevation = 4.dp
+                                    .clickable { navController.navigate("product/${product.id}") }
                             ) {
                                 Column(modifier = Modifier.padding(16.dp)) {
-                                    Text(product.name, style = MaterialTheme.typography.body1)
-                                    Text("R${product.price}", style = MaterialTheme.typography.body2)
+                                    Text(product.name, style = MaterialTheme.typography.bodyLarge)
+                                    Text("R${product.price}", style = MaterialTheme.typography.bodyMedium)
                                 }
                             }
                         }

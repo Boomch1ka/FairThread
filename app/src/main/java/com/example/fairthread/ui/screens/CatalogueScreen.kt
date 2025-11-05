@@ -2,10 +2,10 @@ package com.example.fairthread.ui.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,6 +20,7 @@ import com.example.fairthread.model.Product
 import com.example.fairthread.ui.preview.PreviewWrapper
 import com.example.fairthread.viewmodel.CatalogueViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CatalogueScreen(navController: NavHostController, viewModel: CatalogueViewModel = viewModel()) {
     val categories by viewModel.categories.collectAsState()
@@ -31,20 +32,19 @@ fun CatalogueScreen(navController: NavHostController, viewModel: CatalogueViewMo
     }
 
     Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
-        Text(stringResource(R.string.catalogue), style = MaterialTheme.typography.h5)
+        Text(stringResource(R.string.catalogue), style = MaterialTheme.typography.headlineSmall)
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(stringResource(R.string.categories), style = MaterialTheme.typography.subtitle1)
+        Text(stringResource(R.string.categories), style = MaterialTheme.typography.titleMedium)
         LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             items(categories) { category ->
                 Card(
                     modifier = Modifier
-                        .clickable { viewModel.filterProductsByCategory(category.id) },
-                    elevation = 4.dp
+                        .clickable { viewModel.filterProductsByCategory(category.id) }
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
-                        Text(category.name, style = MaterialTheme.typography.body1)
+                        Text(category.name, style = MaterialTheme.typography.bodyLarge)
                     }
                 }
             }
@@ -52,13 +52,13 @@ fun CatalogueScreen(navController: NavHostController, viewModel: CatalogueViewMo
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Text(stringResource(R.string.products), style = MaterialTheme.typography.subtitle1)
+        Text(stringResource(R.string.products), style = MaterialTheme.typography.titleMedium)
 
         when {
             errorMessage != null -> {
                 Text(
                     stringResource(R.string.error) + ": " + errorMessage,
-                    color = MaterialTheme.colors.error
+                    color = MaterialTheme.colorScheme.error
                 )
             }
             products.isEmpty() -> {
@@ -72,12 +72,11 @@ fun CatalogueScreen(navController: NavHostController, viewModel: CatalogueViewMo
                                 .fillMaxWidth()
                                 .clickable {
                                     navController.navigate("product/${product.id}")
-                                },
-                            elevation = 4.dp
+                                }
                         ) {
                             Column(modifier = Modifier.padding(16.dp)) {
-                                Text(product.name, style = MaterialTheme.typography.body1)
-                                Text("R${product.price}", style = MaterialTheme.typography.body2)
+                                Text(product.name, style = MaterialTheme.typography.bodyLarge)
+                                Text("R${product.price}", style = MaterialTheme.typography.bodyMedium)
                             }
                         }
                     }

@@ -1,36 +1,41 @@
 package com.example.fairthread.ui.components
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.fairthread.R
 
 @Composable
 fun DrawerContent(navController: NavController) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        Text("FairThread", style = MaterialTheme.typography.h6, modifier = Modifier.padding(16.dp))
-        Divider()
-        DrawerItem("Home") { navController.navigate("home") }
-        DrawerItem("Stores") { navController.navigate("stores") }
-        DrawerItem("Cart") { navController.navigate("cart") }
-        DrawerItem("Orders") { navController.navigate("orders") }
-        DrawerItem("Settings") { navController.navigate("settings") }
+    ModalDrawerSheet {
+        Column(modifier = Modifier.padding(16.dp)) {
+            NavigationDrawerItem(
+                label = { Text(stringResource(R.string.menu_home)) },
+                selected = false,
+                onClick = { navController.navigate("home") }
+            )
+            NavigationDrawerItem(
+                label = { Text(stringResource(R.string.catalogue)) },
+                selected = false,
+                onClick = { navController.navigate("catalogue") }
+            )
+            NavigationDrawerItem(
+                label = { Text(stringResource(R.string.my_orders)) },
+                selected = false,
+                onClick = { navController.navigate("orders") }
+            )
+            NavigationDrawerItem(
+                label = { Text(stringResource(R.string.action_settings)) },
+                selected = false,
+                onClick = { navController.navigate("settings") }
+            )
+        }
     }
-}
-
-@Composable
-fun DrawerItem(label: String, onClick: () -> Unit) {
-    Text(
-        text = label,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .clickable(onClick = onClick),
-        style = MaterialTheme.typography.body1
-    )
 }

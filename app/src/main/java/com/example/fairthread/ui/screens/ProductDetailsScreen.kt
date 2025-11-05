@@ -1,7 +1,7 @@
 package com.example.fairthread.ui.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,6 +14,7 @@ import com.example.fairthread.R
 import com.example.fairthread.viewmodel.ProductViewModel
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailsScreen(
     productId: String,
@@ -24,7 +25,7 @@ fun ProductDetailsScreen(
     val isLoading by viewModel.isLoading.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
 
-    val scaffoldState = rememberScaffoldState()
+    val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
@@ -33,7 +34,7 @@ fun ProductDetailsScreen(
     }
 
     Scaffold(
-        scaffoldState = scaffoldState,
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(title = { Text(product?.name ?: stringResource(R.string.product_details)) })
         }
@@ -48,19 +49,19 @@ fun ProductDetailsScreen(
                 isLoading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 errorMessage != null -> Text(
                     stringResource(R.string.error) + ": " + errorMessage,
-                    color = MaterialTheme.colors.error
+                    color = MaterialTheme.colorScheme.error
                 )
 
                 product != null -> {
                     Column {
-                        Text(product!!.name, style = MaterialTheme.typography.h5)
+                        Text(product!!.name, style = MaterialTheme.typography.headlineSmall)
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text("R${product!!.price}", style = MaterialTheme.typography.body1)
+                        Text("R${product!!.price}", style = MaterialTheme.typography.bodyLarge)
                         Spacer(modifier = Modifier.height(16.dp))
                         Button(onClick = {
                             viewModel.addToCart(product!!)
                             coroutineScope.launch {
-                                scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.added_to_cart))
+                                snackbarHostState.showSnackbar(context.getString(R.string.added_to_cart))
                             }
                         }) {
                             Text(stringResource(R.string.add_to_cart))
@@ -68,7 +69,7 @@ fun ProductDetailsScreen(
                     }
                 }
 
-                else -> Text(stringResource(R.string.product_not_found), color = MaterialTheme.colors.error)
+                else -> Text(stringResource(R.string.product_not_found), color = MaterialTheme.colorScheme.error)
             }
         }
     }

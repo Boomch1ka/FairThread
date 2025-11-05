@@ -3,7 +3,7 @@ package com.example.fairthread.ui.screens
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -17,8 +17,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.fairthread.R
 import com.example.fairthread.ui.components.FairThreadScaffold
-import com.example.fairthread.ui.theme.ButtonColor
-import com.example.fairthread.ui.theme.ButtonTextColor
 import com.example.fairthread.viewmodel.CartViewModel
 import com.example.fairthread.viewmodel.OrderViewModel
 
@@ -51,8 +49,8 @@ fun PaymentScreen(
             ) {
                 Text(
                     text = stringResource(R.string.choose_payment_method),
-                    style = MaterialTheme.typography.h5,
-                    color = MaterialTheme.colors.onSurface
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
@@ -88,10 +86,9 @@ fun PaymentScreen(
 
                 Button(
                     onClick = { navController.navigate("home") },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(stringResource(R.string.return_home), color = ButtonTextColor)
+                    Text(stringResource(R.string.return_home))
                 }
             }
         }

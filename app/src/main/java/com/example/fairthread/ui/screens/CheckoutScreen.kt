@@ -3,7 +3,7 @@ package com.example.fairthread.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -23,14 +23,14 @@ fun CheckoutScreen(uid: String, navController: NavHostController, viewModel: Che
     }
 
     Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
-        Text(stringResource(R.string.checkout), style = MaterialTheme.typography.h5)
+        Text(stringResource(R.string.checkout), style = MaterialTheme.typography.headlineSmall)
         Spacer(modifier = Modifier.height(16.dp))
 
         LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             items(cartItems) { item ->
                 Column {
-                    Text(item.name, style = MaterialTheme.typography.subtitle1)
-                    Text("${stringResource(R.string.qty)}: ${item.quantity} | R${item.price}", style = MaterialTheme.typography.body2)
+                    Text(item.name, style = MaterialTheme.typography.titleMedium)
+                    Text("${stringResource(R.string.qty)}: ${item.quantity} | R${item.price}", style = MaterialTheme.typography.bodyMedium)
                 }
             }
         }
@@ -38,7 +38,7 @@ fun CheckoutScreen(uid: String, navController: NavHostController, viewModel: Che
         Spacer(modifier = Modifier.height(24.dp))
 
         val total = cartItems.sumOf { it.price * it.quantity }
-        Text("${stringResource(R.string.total)}: R$total", style = MaterialTheme.typography.h6)
+        Text("${stringResource(R.string.total)}: R$total", style = MaterialTheme.typography.headlineSmall)
 
         Spacer(modifier = Modifier.height(16.dp))
 

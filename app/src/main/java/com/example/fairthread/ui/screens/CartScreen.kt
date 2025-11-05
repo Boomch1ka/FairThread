@@ -1,12 +1,9 @@
 package com.example.fairthread.ui.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -18,6 +15,7 @@ import com.example.fairthread.model.CartItem
 import com.example.fairthread.ui.components.FairThreadScaffold
 import com.example.fairthread.viewmodel.CartViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CartScreen(uid: String, navController: NavHostController, viewModel: CartViewModel = viewModel()) {
     val cartItems by viewModel.cartItems.collectAsState()
@@ -43,10 +41,10 @@ fun CartScreen(uid: String, navController: NavHostController, viewModel: CartVie
                         items(cartItems) { item: CartItem ->
                             var quantity by remember { mutableStateOf(item.quantity) }
 
-                            Card(modifier = Modifier.fillMaxWidth(), elevation = 4.dp) {
+                            Card(modifier = Modifier.fillMaxWidth()) {
                                 Column(modifier = Modifier.padding(16.dp)) {
-                                    Text(item.name, style = MaterialTheme.typography.subtitle1)
-                                    Text("R${item.price}", style = MaterialTheme.typography.body2)
+                                    Text(item.name, style = MaterialTheme.typography.titleMedium)
+                                    Text("R${item.price}", style = MaterialTheme.typography.bodyMedium)
 
                                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                         OutlinedTextField(

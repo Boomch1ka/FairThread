@@ -3,7 +3,7 @@ package com.example.fairthread.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -40,19 +40,18 @@ fun OrderScreen(uid: String, navController: NavHostController, viewModel: OrderV
                     LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         items(orders) { order ->
                             val total = order.items.sumOf { it.price * it.quantity }
-                            val formattedDate = formatTimestamp(order.timestamp)
 
-                            Card(modifier = Modifier.fillMaxWidth(), elevation = 4.dp) {
+                            Card(modifier = Modifier.fillMaxWidth()) {
                                 Column(modifier = Modifier.padding(16.dp)) {
-                                    Text("${stringResource(R.string.order_id)}: ${order.id}", style = MaterialTheme.typography.subtitle2)
+                                    Text("${stringResource(R.string.order_id)}: ${order.id}", style = MaterialTheme.typography.titleMedium)
                                     Spacer(modifier = Modifier.height(8.dp))
 
                                     order.items.forEach {
-                                        Text("- ${it.quantity} x ${it.name} @ R${it.price}", style = MaterialTheme.typography.body2)
+                                        Text("- ${it.quantity} x ${it.name} @ R${it.price}", style = MaterialTheme.typography.bodyMedium)
                                     }
 
                                     Spacer(modifier = Modifier.height(8.dp))
-                                    Text("${stringResource(R.string.total)}: R${"%.2f".format(total)}", style = MaterialTheme.typography.body1)
+                                    Text("${stringResource(R.string.total)}: R${"%.2f".format(total)}", style = MaterialTheme.typography.bodyLarge)
                                 }
                             }
                         }

@@ -48,7 +48,7 @@
     <string name="login">Ngena</string>
     <string name="password">Iphasiwedi</string>
     <string name="forgot_password">Ulibele iphasiwedi?</string>
-    <string name="dont_have_account">Awunayo iakhawunti? Bhalisa!</string>
+    <string name="dont_have_account">Awunayo i\'akhawunti? Bhalisa!</string>
     <string name="login_failed">Ukungena akuphumelelanga</string>
 
     <string name="no_orders_yet">Awukafaki naziphi na iiodolo.</string>

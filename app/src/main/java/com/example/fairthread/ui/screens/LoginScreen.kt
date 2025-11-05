@@ -2,7 +2,7 @@ package com.example.fairthread.ui.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,11 +14,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.fairthread.R
 import com.example.fairthread.ui.components.FairThreadBackground
-import com.example.fairthread.ui.theme.ButtonColor
-import com.example.fairthread.ui.theme.ButtonTextColor
-import com.example.fairthread.ui.theme.WhiteText
 import com.example.fairthread.viewmodel.AuthViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     navController: NavController, viewModel: AuthViewModel = viewModel()
@@ -49,8 +47,8 @@ fun LoginScreen(
         ) {
             Text(
                 text = stringResource(R.string.login),
-                style = MaterialTheme.typography.h4,
-                color = MaterialTheme.colors.onSurface
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -76,10 +74,9 @@ fun LoginScreen(
 
             Button(
                 onClick = { viewModel.login(email.trim(), password.trim()) },
-                colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(stringResource(R.string.login), color = ButtonTextColor)
+                Text(stringResource(R.string.login))
             }
 
             Spacer(modifier = Modifier.height(6.dp))
@@ -91,7 +88,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             TextButton(onClick = { navController.navigate("register") }) {
-                Text(stringResource(R.string.dont_have_account), color = WhiteText)
+                Text(stringResource(R.string.dont_have_account))
             }
         }
     }
