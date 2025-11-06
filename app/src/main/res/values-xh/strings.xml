@@ -48,7 +48,7 @@
     <string name="login">Ngena</string>
     <string name="password">Iphasiwedi</string>
     <string name="forgot_password">Ulibele iphasiwedi?</string>
-    <string name="dont_have_account">Awunayo i\'akhawunti? Bhalisa!</string>
+    <string name="dont_have_account">Awunayo i akhawunti? Bhalisa!</string>
     <string name="login_failed">Ukungena akuphumelelanga</string>
 
     <string name="no_orders_yet">Awukafaki naziphi na iiodolo.</string>
@@ -70,7 +70,7 @@
     <string name="confirm_password">Qinisekisa iphasiwedi</string>
     <string name="passwords_do_not_match">Amaphasiwedi awafani</string>
     <string name="invalid_email">I-imeyile engeyiyo</string>
-    <string name="validating">Iqinisekisa...</string>
+    <string name="validating">Iqinisekisa…</string>
     <string name="already_have_account">Sele unayo iakhawunti? Ngena</string>
     <string name="registration_failed">Ubhaliso aluphumelelanga</string>
 

@@ -48,10 +48,10 @@
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="forgot_password">Forgot Password?</string>
-    <string name="dont_have_account">Don't have an Account? Register!</string>
+    <string name="dont_have_account">Don\'t have an Account? Register!</string>
     <string name="login_failed">Login failed</string>
 
-    <string name="no_orders_yet">You haven't placed any orders yet.</string>
+    <string name="no_orders_yet">You haven\'t placed any orders yet.</string>
     <string name="order_id">Order ID</string>
 
     <string name="payment_details">Payment Details</string>

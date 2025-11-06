@@ -48,7 +48,7 @@
     <string name="login">Aanteken</string>
     <string name="password">Wagwoord</string>
     <string name="forgot_password">Wagwoord Vergeet?</string>
-    <string name="dont_have_account">Het jy nie 'n rekening nie? Registreer!</string>
+    <string name="dont_have_account">Het jy nie \'n rekening nie? Registreer!</string>
     <string name="login_failed">Aanteken het misluk</string>
 
     <string name="no_orders_yet">Jy het nog geen bestellings geplaas nie.</string>
@@ -70,8 +70,8 @@
     <string name="confirm_password">Bevestig Wagwoord</string>
     <string name="passwords_do_not_match">Wagwoorde stem nie ooreen nie</string>
     <string name="invalid_email">Ongeldige e-pos</string>
-    <string name="validating">Valideer...</string>
-    <string name="already_have_account">Het jy reeds 'n rekening? Aanteken</string>
+    <string name="validating">Valideer…</string>
+    <string name="already_have_account">Het jy reeds n rekening? Aanteken</string>
     <string name="registration_failed">Registrasie het misluk</string>
 
     <string name="fairthread_logo">FairThread Logo</string>
