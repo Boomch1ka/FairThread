@@ -10,4 +10,6 @@ import com.example.fairthread.model.CartItem
 abstract class FairThreadDatabase : RoomDatabase() {
     abstract fun cartDao(): CartDao
     abstract fun orderDao(): OrderDao
+    abstract fun settingsDao(): SettingsDao
+
 }
