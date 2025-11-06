@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Text
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -19,10 +21,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.fairthread.FirebasePushNoti
 import com.example.fairthread.ui.components.FairThreadBackground
 import com.example.fairthread.ui.components.FairThreadScaffold
 import com.example.fairthread.ui.theme.ButtonColor
 import com.example.fairthread.ui.theme.ButtonTextColor
+import androidx.compose.runtime.*
 import com.example.fairthread.viewmodel.CartViewModel
 import com.example.fairthread.viewmodel.OrderViewModel
 
@@ -72,19 +76,19 @@ fun PaymentScreen(
                 Button(
                     onClick = {
                         if (cartItems.isNotEmpty()) {
-                            // Simulate payment success
                             Log.d("Payment", "Demo payment processed for ${cartItems.size} items")
+                            Toast.makeText(context, "Demo payment successful!", Toast.LENGTH_SHORT)
+                                .show()
 
 
-
-                            Toast.makeText(context, "Demo payment successful!", Toast.LENGTH_SHORT).show()
-
-
-                            // Place order and clear cart
                             orderViewModel.placeOrder(uid, cartItems)
                             cartViewModel.clearCart(uid)
 
-                            // Navigate to orders screen
+
+                            FirebasePushNoti.createNotificationChannel(context)
+                            FirebasePushNoti.sendOrderAcceptedNotification(context)
+
+
                             navController.navigate("orders") {
                                 popUpTo("cart") { inclusive = true }
                             }
@@ -110,3 +114,4 @@ fun PaymentScreen(
         }
     }
 }
+
