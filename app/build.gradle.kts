@@ -56,7 +56,10 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:24.10.0")
 
     // RoomDB
-    kapt(libs.room.compiler)
+    implementation(libs.androidx.room.compiler)
+
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
 
     // Retrofit + Gson
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
