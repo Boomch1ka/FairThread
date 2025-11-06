@@ -1,9 +1,12 @@
 package com.example.fairthread.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "cart_items")
 data class CartItem(
-    val id: String,
+    @PrimaryKey val id: String,
     val name: String,
     val price: Double,
     val quantity: Int
 )
-
