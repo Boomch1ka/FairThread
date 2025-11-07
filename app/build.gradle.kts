@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
     id("com.google.gms.google-services")
-    kotlin("kapt")
 }
 
 android {
@@ -18,6 +17,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "API_KEY", "\"050772f4799540208d369de7afe782a6\"")
     }
 
     buildTypes {
@@ -44,6 +44,7 @@ android {
     buildFeatures {
         compose = true
         viewBinding = true
+        buildConfig = true
     }
 
 }
@@ -57,9 +58,15 @@ dependencies {
 
     // RoomDB
     implementation(libs.androidx.room.compiler)
-
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+
+    configurations.all {
+        resolutionStrategy {
+            force("org.jetbrains:annotations:23.0.0")
+            exclude(group = "com.intellij", module = "annotations")
+        }
+    }
 
     // Retrofit + Gson
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

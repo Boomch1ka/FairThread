@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.fairthread.model.CartItem
 
-@Database(entities = [CartItem::class, OrderEntity::class], version = 2)
+@Database(entities = [CartItem::class, OrderEntity::class, SettingsEntity::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class FairThreadDatabase : RoomDatabase() {
     abstract fun cartDao(): CartDao

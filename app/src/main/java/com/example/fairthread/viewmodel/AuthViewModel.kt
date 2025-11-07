@@ -3,6 +3,7 @@ package com.example.fairthread.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fairthread.BuildConfig
 import com.example.fairthread.data.repository.AuthRepository
 import com.example.fairthread.di.NetworkModule
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +27,7 @@ class AuthViewModel(private val repo: AuthRepository = AuthRepository()) : ViewM
     fun testManualEmailReputation() {
         viewModelScope.launch {
             try {
-                val url = "https://emailreputation.abstractapi.com/v1/?api_key=050772f4799540208d369de7afe782a6&email=test@example.com"
+                val url = "https://emailreputation.abstractapi.com/v1/?api_key=${BuildConfig.API_KEY}&email=test@example.com"
                 val result = withContext(Dispatchers.IO) { URL(url).readText()
                 }
                 Log.d("EmailReputation", "Manual response: $result")
@@ -40,7 +41,7 @@ class AuthViewModel(private val repo: AuthRepository = AuthRepository()) : ViewM
     fun validateEmailBeforeRegister(email: String, onResult: (Boolean, String?) -> Unit) {
         viewModelScope.launch {
             try {
-                val response = NetworkModule.emailApi.validateEmail("050772f4799540208d369de7afe782a6", email)
+                val response = NetworkModule.emailApi.validateEmail(BuildConfig.API_KEY, email)
                 Log.d("EmailValidation", "Parsed response: $response")
 
                 val isValidFormat = response.email_deliverability?.is_format_valid == true
