@@ -53,8 +53,9 @@ dependencies {
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:34.3.0"))
     implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-auth:22.3.0")
-    implementation("com.google.firebase:firebase-firestore:24.10.0")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-messaging:23.4.1")
 
     // RoomDB
     implementation(libs.androidx.room.compiler)

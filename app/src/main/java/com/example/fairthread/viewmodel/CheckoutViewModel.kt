@@ -15,12 +15,17 @@ class CheckoutViewModel(
     private val _cartItems = MutableStateFlow<List<CartItem>>(emptyList())
     val cartItems: StateFlow<List<CartItem>> = _cartItems
 
+    private val _total = MutableStateFlow(0.0)
+    val total: StateFlow<Double> = _total
+
     private val _orderPlaced = MutableStateFlow(false)
     val orderPlaced: StateFlow<Boolean> = _orderPlaced
 
     fun loadCart(uid: String) {
         viewModelScope.launch {
-            _cartItems.value = repo.getCartItems(uid)
+            val items = repo.getCartItems(uid)
+            _cartItems.value = items
+            _total.value = items.sumOf { it.price * it.quantity }
         }
     }
 

@@ -60,7 +60,7 @@ fun NavGraph(
 
         // ⚙️ Settings
         composable("settings") {
-            SettingsScreen(navController = navController)
+            SettingsScreen(uid = uid, navController = navController)
         }
 
         // 🏬 Stores List

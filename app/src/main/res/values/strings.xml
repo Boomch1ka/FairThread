@@ -50,6 +50,7 @@
     <string name="forgot_password">Forgot Password?</string>
     <string name="dont_have_account">Don\'t have an Account? Register!</string>
     <string name="login_failed">Login failed</string>
+    <string name="welcome_back">Welcome Back!</string>
 
     <string name="no_orders_yet">You haven\'t placed any orders yet.</string>
     <string name="order_id">Order ID</string>
@@ -59,6 +60,11 @@
     <string name="confirm_payment">Confirm Payment</string>
     <string name="return_home">Return Home</string>
     <string name="demo_payment_successful">Demo payment successful!</string>
+    <string name="confirm_your_payment">Confirm your payment</string>
+    <string name="processing_payment">Processing payment...</string>
+    <string name="payment_successful">Payment Successful!</string>
+    <string name="payment_failed">Payment Failed</string>
+    <string name="try_again">Try Again</string>
 
     <string name="product_details">Product Details</string>
     <string name="add_to_cart">Add to Cart</string>
@@ -73,6 +79,7 @@
     <string name="validating">Validating...</string>
     <string name="already_have_account">Already have an account? Login</string>
     <string name="registration_failed">Registration failed</string>
+    <string name="create_your_account">Create Your Account</string>
 
     <string name="fairthread_logo">FairThread Logo</string>
 
@@ -84,4 +91,5 @@
     <string name="english">English</string>
     <string name="afrikaans">Afrikaans</string>
     <string name="xhosa">Xhosa</string>
+    <string name="payment">Payment</string>
 </resources>

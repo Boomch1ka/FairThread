@@ -1,12 +1,12 @@
 package com.example.fairthread.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
-private val DarkColorScheme = darkColorScheme(
+private val DarkColorPalette = darkColors(
     primary = Gold,
     onPrimary = Black,
     background = Gold,
@@ -14,9 +14,9 @@ private val DarkColorScheme = darkColorScheme(
     onSurface = White
 )
 
-private val LightColorScheme = lightColorScheme(
+private val LightColorPalette = lightColors(
     primary = Gold,
-    onPrimary = White,
+    onPrimary = Black,
     background = White,
     surface = White,
     onSurface = Black
@@ -24,15 +24,16 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun FairThreadTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colorScheme = if (darkTheme) {
-        DarkColorScheme
+    val colors = if (darkTheme) {
+        DarkColorPalette
     } else {
-        LightColorScheme
+        LightColorPalette
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
+        colors = colors,
         typography = Typography,
+        shapes = Shapes,
         content = content
     )
 }

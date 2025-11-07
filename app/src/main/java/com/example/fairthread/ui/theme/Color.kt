@@ -5,3 +5,10 @@ import androidx.compose.ui.graphics.Color
 val Gold = Color(0xFFFFD700)
 val Black = Color(0xFF000000)
 val White = Color(0xFFFFFFFF)
+
+val ButtonColor = Gold
+val ButtonTextColor = Black
+
+val WhiteText = White
+val GradientStart = Gold
+val GradientEnd = Black

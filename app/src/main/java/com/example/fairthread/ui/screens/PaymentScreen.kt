@@ -1,11 +1,18 @@
 package com.example.fairthread.ui.screens
 
-import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -17,78 +24,61 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.fairthread.R
 import com.example.fairthread.ui.components.FairThreadScaffold
-import com.example.fairthread.viewmodel.CartViewModel
-import com.example.fairthread.viewmodel.OrderViewModel
+import com.example.fairthread.viewmodel.PaymentViewModel
 
 @Composable
-fun PaymentScreen(
-    uid: String,
-    navController: NavController,
-    cartViewModel: CartViewModel = viewModel(),
-    orderViewModel: OrderViewModel = viewModel()
-) {
-    val cartItems by cartViewModel.cartItems.collectAsState()
+fun PaymentScreen(navController: NavController, uid: String, viewModel: PaymentViewModel = viewModel()) {
+    val paymentStatus by viewModel.paymentStatus.collectAsState()
     val context = LocalContext.current
 
-    LaunchedEffect(uid) {
-        cartViewModel.loadCart(uid)
-    }
-
-    FairThreadScaffold(navController, title = stringResource(R.string.payment_details)) { paddingValues ->
-        Box(
+    FairThreadScaffold(navController, title = stringResource(R.string.payment)) { paddingValues ->
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(24.dp)
+                .padding(24.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = stringResource(R.string.choose_payment_method),
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
 
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Spacer(modifier = Modifier.height(32.dp))
-
-                Button(
-                    onClick = {
-                        if (cartItems.isNotEmpty()) {
-                            // Simulate payment success
-                            Log.d("Payment", "Demo payment processed for ${cartItems.size} items")
-
-                            Toast.makeText(context, context.getString(R.string.demo_payment_successful), Toast.LENGTH_SHORT).show()
-
-                            // Place order and clear cart
-                            orderViewModel.placeOrder(uid, cartItems)
-                            cartViewModel.clearCart(uid)
-
-                            // Navigate to orders screen
-                            navController.navigate("orders") {
-                                popUpTo("cart") { inclusive = true }
-                            }
-                        } else {
-                            Log.d("Payment", "Cart is empty — no payment processed")
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(stringResource(R.string.confirm_payment))
+            when (paymentStatus) {
+                PaymentViewModel.Status.IDLE -> {
+                    Text(
+                        stringResource(R.string.confirm_your_payment),
+                        style = MaterialTheme.typography.h5,
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Button(
+                        onClick = { viewModel.processPayment(uid) },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(stringResource(R.string.confirm_payment))
+                    }
                 }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Button(
-                    onClick = { navController.navigate("home") },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(stringResource(R.string.return_home))
+                PaymentViewModel.Status.PROCESSING -> {
+                    CircularProgressIndicator()
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(stringResource(R.string.processing_payment))
+                }
+                PaymentViewModel.Status.SUCCESS -> {
+                    Text(stringResource(R.string.payment_successful))
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Button(
+                        onClick = { navController.navigate("home") { popUpTo("payment") { inclusive = true } } },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(stringResource(R.string.return_home))
+                    }
+                }
+                PaymentViewModel.Status.ERROR -> {
+                    Text(stringResource(R.string.payment_failed), color = MaterialTheme.colors.error)
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Button(
+                        onClick = { viewModel.reset() },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(stringResource(R.string.try_again))
+                    }
                 }
             }
         }

@@ -50,6 +50,7 @@
     <string name="forgot_password">Wagwoord Vergeet?</string>
     <string name="dont_have_account">Het jy nie \'n rekening nie? Registreer!</string>
     <string name="login_failed">Aanteken het misluk</string>
+    <string name="welcome_back">Welkom Terug!</string>
 
     <string name="no_orders_yet">Jy het nog geen bestellings geplaas nie.</string>
     <string name="order_id">Bestelling ID</string>
@@ -59,6 +60,10 @@
     <string name="confirm_payment">Bevestig Betaling</string>
     <string name="return_home">Keer Terug Huis Toe</string>
     <string name="demo_payment_successful">Demo-betaling suksesvol!</string>
+    <string name="processing_payment">Besig om betaling te verwerk…</string>
+    <string name="payment_successful">Betaling Suksesvol!</string>
+    <string name="payment_failed">Betaling het Misluk</string>
+    <string name="try_again">Probeer Weer</string>
 
     <string name="product_details">Produkbesonderhede</string>
     <string name="add_to_cart">Voeg by Mandjie</string>
@@ -71,8 +76,9 @@
     <string name="passwords_do_not_match">Wagwoorde stem nie ooreen nie</string>
     <string name="invalid_email">Ongeldige e-pos</string>
     <string name="validating">Valideer…</string>
-    <string name="already_have_account">Het jy reeds n rekening? Aanteken</string>
+    <string name="already_have_account">Het jy reeds \'n rekening? Aanteken</string>
     <string name="registration_failed">Registrasie het misluk</string>
+    <string name="create_your_account">Skep Jou Rekening</string>
 
     <string name="fairthread_logo">FairThread Logo</string>
 
@@ -84,4 +90,5 @@
     <string name="english">Engels</string>
     <string name="afrikaans">Afrikaans</string>
     <string name="xhosa">Xhosa</string>
+    <string name="payment">Betaling</string>
 </resources>

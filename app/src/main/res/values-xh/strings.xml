@@ -50,6 +50,7 @@
     <string name="forgot_password">Ulibele iphasiwedi?</string>
     <string name="dont_have_account">Awunayo i akhawunti? Bhalisa!</string>
     <string name="login_failed">Ukungena akuphumelelanga</string>
+    <string name="welcome_back">Wamkelekile Kwakhona!</string>
 
     <string name="no_orders_yet">Awukafaki naziphi na iiodolo.</string>
     <string name="order_id">ID yeodolo</string>
@@ -59,6 +60,11 @@
     <string name="confirm_payment">Qinisekisa intlawulo</string>
     <string name="return_home">Buyela Ekhaya</string>
     <string name="demo_payment_successful">Intlawulo yedemo iphumelele!</string>
+    <string name="confirm_your_payment">Qinisekisa Intlawulo Yakho</string>
+    <string name="processing_payment">Icutshungulwa intlawulo...</string>
+    <string name="payment_successful">Intlawulo Iphumelele!</string>
+    <string name="payment_failed">Intlawulo ayiphumelelanga</string>
+    <string name="try_again">Zama Kwakhona</string>
 
     <string name="product_details">Iinkcukacha zemveliso</string>
     <string name="add_to_cart">Yongeza kwinqola</string>
@@ -73,6 +79,7 @@
     <string name="validating">Iqinisekisa…</string>
     <string name="already_have_account">Sele unayo iakhawunti? Ngena</string>
     <string name="registration_failed">Ubhaliso aluphumelelanga</string>
+    <string name="create_your_account">Dala iAkhawunti Yakho</string>
 
     <string name="fairthread_logo">Ilogo yeFairThread</string>
 
@@ -84,4 +91,5 @@
     <string name="english">IsiNgesi</string>
     <string name="afrikaans">IsiBhulu</string>
     <string name="xhosa">isiXhosa</string>
+    <string name="payment">Intlawulo</string>
 </resources>
