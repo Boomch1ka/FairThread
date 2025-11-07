@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.fairthread.R
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 
 @Composable
@@ -39,8 +40,11 @@ fun SplashScreen(navController: NavController) {
     LaunchedEffect(Unit) {
         startAnimation = true
         delay(4000)
-        navController.navigate("login") { // or your main screen
-            popUpTo("splash") { inclusive = true }
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            navController.navigate("home") { popUpTo("splash") { inclusive = true } }
+        } else {
+            navController.navigate("login") { popUpTo("splash") { inclusive = true } }
         }
     }
 
@@ -58,7 +62,7 @@ fun Splash(alpha: Float) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
                 painter = painterResource(id = R.drawable.fairthreadlogo),
-                contentDescription = stringResource(R.drawable.fairthreadlogo),
+                contentDescription = stringResource(R.string.fairthread_logo),
                 modifier = Modifier
                     .size(120.dp)
                     .alpha(alpha)

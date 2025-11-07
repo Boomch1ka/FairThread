@@ -13,6 +13,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -33,10 +34,17 @@ fun StoreScreen(
 ) {
     val store by viewModel.store.collectAsState()
     val categories by viewModel.categories.collectAsState()
+
+    val groupedProducts by viewModel.groupedProducts.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
 
-    viewModel.loadStore(storeId)
+    LaunchedEffect(storeId) {
+        if (storeId.isNotBlank()) {
+            viewModel.loadStore(storeId)
+            viewModel.loadStoreCategories(storeId)
+        }
+    }
 
     FairThreadScaffold(navController, title = store?.name ?: "Store") { paddingValues ->
         Box(
@@ -45,32 +53,31 @@ fun StoreScreen(
                 .padding(paddingValues),
             contentAlignment = Alignment.Center
         ) {
-            if (isLoading) {
-                CircularProgressIndicator()
-            } else if (store != null) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp)
-                ) {
-                    if (errorMessage != null) {
-                        Text("${stringResource(R.string.error)}: $errorMessage", color = MaterialTheme.colors.error)
-                    } else {
-                        Text(stringResource(R.string.categories), style = MaterialTheme.typography.h5)
-                        LazyColumn(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            items(categories) { category ->
-                                Card(
-                                    modifier = Modifier
-                                        .fillParentMaxWidth()
-                                        .clickable { navController.navigate("store/$storeId/category/$category") },
-                                    elevation = 4.dp
-                                ) {
-                                    Column(modifier = Modifier.padding(16.dp)) {
-                                        Text(category.capitalize(), style = MaterialTheme.typography.h6)
-                                    }
+
+            when {
+                isLoading -> {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator()
+                    }
+                }
+                errorMessage != null -> {
+                    Text("${stringResource(R.string.error)}: $errorMessage", color = MaterialTheme.colors.error)
+                }else -> {
+                    Text(stringResource(R.string.categories), style = MaterialTheme.typography.h5)
+
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(categories) { category ->
+                            Card(
+                                modifier = Modifier
+                                    .fillParentMaxWidth()
+                                    .clickable { navController.navigate("store/$storeId/category/$category") },
+                                elevation = 4.dp
+                            ) {
+                                Column(modifier = Modifier.padding(16.dp)) {
+                                    Text(category.capitalize(), style = MaterialTheme.typography.h6)
                                 }
                             }
                         }
@@ -78,5 +85,23 @@ fun StoreScreen(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewStoreScreen() {
+    val mockViewModel = object : StoreViewModel() {
+        init {
+            _store.value = Store("threadco", "Thread & Co", "Local fashion boutique")
+            _groupedProducts.value = mapOf(
+                "clothing" to listOf(Product("1", "Denim Jacket", 499.99, "clothing")),
+                "accessories" to listOf(Product("2", "Leather Belt", 199.99, "accessories"))
+            )
+        }
+    }
+
+    PreviewWrapper {
+        StoreScreen(storeId = "threadco", navController = rememberNavController(), viewModel = mockViewModel)
     }
 }
