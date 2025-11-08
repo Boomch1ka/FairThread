@@ -15,6 +15,9 @@ class CheckoutViewModel(
     private val _cartItems = MutableStateFlow<List<CartItem>>(emptyList())
     val cartItems: StateFlow<List<CartItem>> = _cartItems
 
+    private val _total = MutableStateFlow(false)
+    val total: StateFlow<Boolean> = _total
+
     private val _orderPlaced = MutableStateFlow(false)
     val orderPlaced: StateFlow<Boolean> = _orderPlaced
 

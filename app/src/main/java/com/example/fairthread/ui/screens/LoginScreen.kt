@@ -1,27 +1,46 @@
 package com.example.fairthread.ui.screens
 
+import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.fairthread.R
 import com.example.fairthread.ui.components.FairThreadBackground
 import com.example.fairthread.ui.theme.ButtonColor
 import com.example.fairthread.ui.theme.ButtonTextColor
 import com.example.fairthread.ui.theme.WhiteText
 import com.example.fairthread.viewmodel.AuthViewModel
-import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.logging.Log
-
 
 @Composable
-fun LoginScreen(navController: NavController, viewModel: AuthViewModel = viewModel()
+fun LoginScreen(
+    navController: NavController, viewModel: AuthViewModel = viewModel()
 ) {
 
     val context = LocalContext.current
@@ -32,10 +51,10 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel = viewMod
     LaunchedEffect(authState) {
         authState?.onSuccess {
             navController.navigate("home") {
-            popUpTo("login") { inclusive = true }
-        }
-    }?.onFailure {
-            Toast.makeText(context, it.message ?: "Login failed", Toast.LENGTH_SHORT).show()
+                popUpTo("login") { inclusive = true }
+            }
+        }?.onFailure {
+            Toast.makeText(context, it.message ?: context.getString(R.string.login_failed), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -48,7 +67,7 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel = viewMod
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Login",
+                text = stringResource(id = R.string.login),
                 fontSize = 24.sp,
                 color = MaterialTheme.colors.onSurface
             )
@@ -58,7 +77,7 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel = viewMod
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Email") },
+                label = { Text(stringResource(id = R.string.email)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -67,7 +86,7 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel = viewMod
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password") },
+                label = { Text(stringResource(id = R.string.password)) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -79,19 +98,19 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel = viewMod
                 colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Login", color = ButtonTextColor)
+                Text(stringResource(id = R.string.login), color = ButtonTextColor)
             }
 
             Spacer(modifier = Modifier.height(6.dp))
 
             TextButton(onClick = { navController.navigate("forgot") }) {
-                Text("Forgot Password?")
+                Text(stringResource(id = R.string.forgot_password))
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             TextButton(onClick = { navController.navigate("register") }) {
-                Text("Don't have an Account? Register!", color = WhiteText)
+                Text(stringResource(id = R.string.dont_have_account), color = WhiteText)
             }
         }
 

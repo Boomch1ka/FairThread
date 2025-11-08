@@ -1,17 +1,37 @@
 package com.example.fairthread.ui.screens
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.*
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Button
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.fairthread.R
 import com.example.fairthread.model.CartItem
 import com.example.fairthread.ui.components.FairThreadScaffold
 import com.example.fairthread.viewmodel.CartViewModel
@@ -26,34 +46,39 @@ fun CartScreen(uid: String, navController: NavHostController, viewModel: CartVie
         viewModel.loadCart(uid)
     }
 
-    FairThreadScaffold(navController, title = "Your Cart") { paddingValues ->
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)
-            .padding(24.dp)) {
+    FairThreadScaffold(navController, title = stringResource(id = R.string.cart)) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(24.dp)
+        ) {
             Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 if (cartItems.isEmpty()) {
-                    Text("Your cart is empty.")
+                    Text(stringResource(id = R.string.your_cart_is_empty))
                 } else {
                     LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         items(cartItems) { item: CartItem ->
                             var quantity by remember { mutableStateOf(item.quantity) }
 
-                            Card(modifier = Modifier.fillMaxWidth(), elevation = 4.dp) {
+                            Card(modifier = Modifier.fillMaxWidth()) {
                                 Column(modifier = Modifier.padding(16.dp)) {
-                                    Text(item.name, style = MaterialTheme.typography.subtitle1)
-                                    Text("R${item.price}", style = MaterialTheme.typography.body2)
+                                    Text(item.name, style = MaterialTheme.typography.h6)
+                                    Text("R${item.price}", style = MaterialTheme.typography.body1)
 
-                                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceBetween
+                                    ) {
                                         OutlinedTextField(
                                             value = quantity.toString(),
                                             onValueChange = {
                                                 quantity = it.toIntOrNull() ?: item.quantity
                                                 viewModel.updateQuantity(uid, item.id, quantity)
                                             },
-                                            label = { Text("Qty") },
+                                            label = { Text(stringResource(id = R.string.quantity)) },
                                             modifier = Modifier.width(100.dp)
                                         )
 
@@ -61,7 +86,7 @@ fun CartScreen(uid: String, navController: NavHostController, viewModel: CartVie
                                             itemToRemove = item
                                             showDialog = true
                                         }) {
-                                            Text("Remove")
+                                            Text(stringResource(id = R.string.remove))
                                         }
                                     }
                                 }
@@ -71,10 +96,12 @@ fun CartScreen(uid: String, navController: NavHostController, viewModel: CartVie
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    Button(onClick = {
-                        navController.navigate("payment")
-                    }, modifier = Modifier.fillMaxWidth()) {
-                        Text("Proceed to Payment")
+                    Button(
+                        onClick = {
+                            navController.navigate("payment")
+                        }, modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(stringResource(id = R.string.proceed_to_payment))
                     }
                 }
             }
@@ -82,19 +109,19 @@ fun CartScreen(uid: String, navController: NavHostController, viewModel: CartVie
             if (showDialog && itemToRemove != null) {
                 AlertDialog(
                     onDismissRequest = { showDialog = false },
-                    title = { Text("Remove Item") },
-                    text = { Text("Are you sure you want to remove this item from your cart?") },
+                    title = { Text(stringResource(id = R.string.remove_item)) },
+                    text = { Text(stringResource(id = R.string.remove_item_confirm)) },
                     confirmButton = {
                         TextButton(onClick = {
                             viewModel.removeItem(uid, itemToRemove!!.id)
                             showDialog = false
                         }) {
-                            Text("Yes")
+                            Text(stringResource(id = R.string.yes))
                         }
                     },
                     dismissButton = {
                         TextButton(onClick = { showDialog = false }) {
-                            Text("Cancel")
+                            Text(stringResource(id = R.string.cancel))
                         }
                     }
                 )

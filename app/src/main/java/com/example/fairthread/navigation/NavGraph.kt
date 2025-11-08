@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.fairthread.ui.screens.*
 import com.example.fairthread.viewmodel.AuthViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun NavGraph(
@@ -13,6 +14,8 @@ fun NavGraph(
     uid: String,
     authViewModel: AuthViewModel
 ) {
+    val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid ?: uid
+
     NavHost(navController = navController, startDestination = "splash") {
 
         // 🚀 Splash Screen
@@ -35,7 +38,7 @@ fun NavGraph(
 
         // 🏠 Home
         composable("home") {
-            HomeScreen(navController = navController)
+            HomeScreen(navController = navController, uid = currentUserUid)
         }
 
         // 🛍️ Catalogue
@@ -45,22 +48,22 @@ fun NavGraph(
 
         // 🛒 Cart
         composable("cart") {
-            CartScreen(uid = uid, navController = navController)
+            CartScreen(uid = currentUserUid, navController = navController)
         }
 
         // 💳 Checkout
         composable("checkout") {
-            CheckoutScreen(uid = uid, navController = navController)
+            CheckoutScreen(uid = currentUserUid, navController = navController)
         }
 
         // 📜 Orders
         composable("orders") {
-            OrderScreen(uid = uid, navController = navController)
+            OrderScreen(uid = currentUserUid, navController = navController)
         }
 
         // ⚙️ Settings
         composable("settings") {
-            SettingsScreen(uid = uid, navController = navController)
+            SettingsScreen(uid = currentUserUid, navController = navController)
         }
 
         // 🏬 Stores List
@@ -88,7 +91,7 @@ fun NavGraph(
         }
 
         composable("payment") {
-            PaymentScreen(navController = navController, uid = uid)
+            PaymentScreen(navController = navController, uid = currentUserUid)
         }
 
 

@@ -32,10 +32,11 @@ open class StoreViewModel(
     val categories: StateFlow<List<String>> = _categories
 
 
-    fun loadStoreCategories(storeId: String) {
+    fun loadStoreAndCategories(storeId: String) {
         viewModelScope.launch {
             _isLoading.value = true
             try {
+                val storeData = repo.getStoreById(storeId)
                 val products = repo.getProductsByStore(storeId)
                 val uniqueCategories = products.map { it.category }.distinct()
                 _categories.value = uniqueCategories

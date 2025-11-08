@@ -1,0 +1,90 @@
+<resources>
+    <string name="app_name">FairThread</string>
+
+    <!-- General UI -->
+    <string name="settings">Instellings</string>
+    <string name="log_out">Teken uit</string>
+    <string name="delete_my_account">Verwyder My Rekening</string>
+    <string name="back_to_home">Terug na Tuis</string>
+    <string name="save_changes">Stoor Veranderinge</string>
+    <string name="explore_stores">Verken Winkels</string>
+    <string name="view_cart">Bekyk Mandjie</string>
+    <string name="my_orders">My Bestellings</string>
+    <string name="home">Tuis</string>
+    <string name="catalogue">Katalogus</string>
+    <string name="cart">Mandjie</string>
+    <string name="orders">Bestellings</string>
+    <string name="stores">Winkels</string>
+    <string name="store">Winkel</string>
+    <string name="product_details">Produkbesonderhede</string>
+    <string name="payment_details">Betalingsbesonderhede</string>
+    <string name="username">Gebruikersnaam</string>
+    <string name="email">E-pos</string>
+    <string name="password">Wagwoord</string>
+    <string name="confirm_password">Bevestig Wagwoord</string>
+    <string name="category">Kategorie</string>
+    <string name="total">Totaal</string>
+    <string name="quantity">Aantal</string>
+    <string name="remove">Verwyder</string>
+    <string name="yes">Ja</string>
+    <string name="cancel">Kanselleer</string>
+    <string name="error">Fout</string>
+
+    <!-- Screen Specific -->
+    <string name="welcome_back">Welkom Terug!</string>
+    <string name="login">Teken aan</string>
+    <string name="login_failed">Aanteken het misluk</string>
+    <string name="forgot_password">Wagwoord Vergeet?</string>
+    <string name="dont_have_account">Het jy nie \'n rekening nie? Registreer!</string>
+    <string name="create_your_account">Skep Jou Rekening</string>
+    <string name="register">Registreer</string>
+    <string name="registration_failed">Registrasie het misluk</string>
+    <string name="passwords_do_not_match">Wagwoorde stem nie ooreen nie</string>
+    <string name="invalid_email">Ongeldige e-posadres</string>
+    <string name="validating">Valideer...</string>
+    <string name="already_have_account">Het jy reeds \'n rekening? Teken aan</string>
+    <string name="reset_password">Herstel Wagwoord</string>
+    <string name="send_reset_link">Stuur Herstel Skakel</string>
+    <string name="reset_link_sent">Herstel skakel gestuur na %1$s</string>
+    <string name="failed_to_send_reset_link">Kon nie herstel skakel stuur nie.</string>
+    <string name="back_to_login">Terug na Aanteken</string>
+    <string name="categories">Kategorieë</string>
+    <string name="products">Produkte</string>
+    <string name="no_products_found">Geen produkte gevind vir hierdie kategorie nie.</string>
+    <string name="your_cart_is_empty">Jou mandjie is leeg.</string>
+    <string name="proceed_to_payment">Gaan voort na betaling</string>
+    <string name="remove_item">Verwyder Item</string>
+    <string name="remove_item_confirm">Is jy seker jy wil hierdie item uit jou mandjie verwyder?</string>
+    <string name="checkout">Betaal</string>
+    <string name="place_order">Plaas bestelling</string>
+    <string name="no_products_found_in_category">Geen produkte gevind in hierdie kategorie nie.</string>
+    <string name="no_orders_yet">Jy het nog geen bestellings geplaas nie.</string>
+    <string name="order_id">Bestelling ID</string>
+    <string name="choose_payment_method">Kies Betaalmetode</string>
+    <string name="confirm_payment">Bevestig Betaling</string>
+    <string name="return_home">Keer Terug Huis Toe</string>
+    <string name="payment_successful">Betaling Suksesvol!</string>
+    <string name="payment_failed">Betaling het Misluk</string>
+    <string name="try_again">Probeer Weer</string>
+    <string name="processing_payment">Besig om betaling te verwerk...</string>
+    <string name="add_to_cart">Bygevoeg by mandjie</string>
+    <string name="product_not_found">Produk nie gevind nie</string>
+    <string name="no_stores_available">Geen winkels beskikbaar nie.</string>
+    <string name="select_language">Kies Taal</string>
+    <string name="english">Engels</string>
+    <string name="afrikaans">Afrikaans</string>
+    <string name="xhosa">Xhosa</string>
+    <string name="confirm_language_change">Bevestig Taalverandering</string>
+    <string name="change_language_to">Verander taal na</string>
+
+    <!-- Logo Descriptions -->
+    <string name="fairthread_logo">FairThread Logo</string>
+    <string name="app_logo">App Logo</string>
+
+    <!-- Menu Items -->
+    <string name="menu_home">Tuis</string>
+    <string name="menu_gallery">Galery</string>
+    <string name="menu_slideshow">Skyfievertoning</string>
+    <string name="action_settings">Instellings</string>
+
+</resources>
