@@ -31,4 +31,4 @@ Clean, minimalistic theme defined in FairThreadTheme.kt
 
 
 https://github.com/Boomch1ka/FairThread
-Video Showcase: https://youtu.be/l_eGNZbbssU
+Video Showcase: https://www.youtube.com/watch?v=HYwaT-nAfSw
