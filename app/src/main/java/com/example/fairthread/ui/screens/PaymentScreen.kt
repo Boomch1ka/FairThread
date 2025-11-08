@@ -113,7 +113,7 @@ fun PaymentScreen(
                             Toast.makeText(context, context.getString(R.string.payment_successful), Toast.LENGTH_SHORT)
                                 .show()
 
-                            orderViewModel.placeOrder(uid, cartItems)
+                            orderViewModel.placeOrder(context, uid, cartItems)
                             cartViewModel.clearCart(uid)
 
                             navController.navigate("orders") {
